@@ -18,11 +18,13 @@ class _$ParkingPlaceTearOff {
 
 // ignore: unused_element
   _ParkingPlace call(
-      {@required Location location,
+      {@required String id,
+      @required Location location,
       @required String name,
       @required String description,
       @required double rating}) {
     return _ParkingPlace(
+      id: id,
       location: location,
       name: name,
       description: description,
@@ -42,6 +44,7 @@ const $ParkingPlace = _$ParkingPlaceTearOff();
 
 /// @nodoc
 mixin _$ParkingPlace {
+  String get id;
   Location get location;
   String get name;
   String get description;
@@ -58,7 +61,11 @@ abstract class $ParkingPlaceCopyWith<$Res> {
           ParkingPlace value, $Res Function(ParkingPlace) then) =
       _$ParkingPlaceCopyWithImpl<$Res>;
   $Res call(
-      {Location location, String name, String description, double rating});
+      {String id,
+      Location location,
+      String name,
+      String description,
+      double rating});
 
   $LocationCopyWith<$Res> get location;
 }
@@ -73,12 +80,14 @@ class _$ParkingPlaceCopyWithImpl<$Res> implements $ParkingPlaceCopyWith<$Res> {
 
   @override
   $Res call({
+    Object id = freezed,
     Object location = freezed,
     Object name = freezed,
     Object description = freezed,
     Object rating = freezed,
   }) {
     return _then(_value.copyWith(
+      id: id == freezed ? _value.id : id as String,
       location: location == freezed ? _value.location : location as Location,
       name: name == freezed ? _value.name : name as String,
       description:
@@ -106,7 +115,11 @@ abstract class _$ParkingPlaceCopyWith<$Res>
       __$ParkingPlaceCopyWithImpl<$Res>;
   @override
   $Res call(
-      {Location location, String name, String description, double rating});
+      {String id,
+      Location location,
+      String name,
+      String description,
+      double rating});
 
   @override
   $LocationCopyWith<$Res> get location;
@@ -124,12 +137,14 @@ class __$ParkingPlaceCopyWithImpl<$Res> extends _$ParkingPlaceCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object id = freezed,
     Object location = freezed,
     Object name = freezed,
     Object description = freezed,
     Object rating = freezed,
   }) {
     return _then(_ParkingPlace(
+      id: id == freezed ? _value.id : id as String,
       location: location == freezed ? _value.location : location as Location,
       name: name == freezed ? _value.name : name as String,
       description:
@@ -144,11 +159,13 @@ class __$ParkingPlaceCopyWithImpl<$Res> extends _$ParkingPlaceCopyWithImpl<$Res>
 /// @nodoc
 class _$_ParkingPlace implements _ParkingPlace {
   const _$_ParkingPlace(
-      {@required this.location,
+      {@required this.id,
+      @required this.location,
       @required this.name,
       @required this.description,
       @required this.rating})
-      : assert(location != null),
+      : assert(id != null),
+        assert(location != null),
         assert(name != null),
         assert(description != null),
         assert(rating != null);
@@ -156,6 +173,8 @@ class _$_ParkingPlace implements _ParkingPlace {
   factory _$_ParkingPlace.fromJson(Map<String, dynamic> json) =>
       _$_$_ParkingPlaceFromJson(json);
 
+  @override
+  final String id;
   @override
   final Location location;
   @override
@@ -167,13 +186,15 @@ class _$_ParkingPlace implements _ParkingPlace {
 
   @override
   String toString() {
-    return 'ParkingPlace(location: $location, name: $name, description: $description, rating: $rating)';
+    return 'ParkingPlace(id: $id, location: $location, name: $name, description: $description, rating: $rating)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _ParkingPlace &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.location, location) ||
                 const DeepCollectionEquality()
                     .equals(other.location, location)) &&
@@ -189,6 +210,7 @@ class _$_ParkingPlace implements _ParkingPlace {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(location) ^
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(description) ^
@@ -207,7 +229,8 @@ class _$_ParkingPlace implements _ParkingPlace {
 
 abstract class _ParkingPlace implements ParkingPlace {
   const factory _ParkingPlace(
-      {@required Location location,
+      {@required String id,
+      @required Location location,
       @required String name,
       @required String description,
       @required double rating}) = _$_ParkingPlace;
@@ -215,6 +238,8 @@ abstract class _ParkingPlace implements ParkingPlace {
   factory _ParkingPlace.fromJson(Map<String, dynamic> json) =
       _$_ParkingPlace.fromJson;
 
+  @override
+  String get id;
   @override
   Location get location;
   @override

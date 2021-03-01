@@ -8,6 +8,7 @@ part 'parking_place.g.dart';
 @freezed
 abstract class ParkingPlace with _$ParkingPlace {
   const factory ParkingPlace({
+    @required String id,
     @required Location location,
     @required String name,
     @required String description,

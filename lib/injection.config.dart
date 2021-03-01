@@ -8,8 +8,10 @@ import 'package:cloud_firestore/cloud_firestore.dart' as _i3;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
-import 'infrastructure/core/firebase_injectable_module.dart'
-    as _i4; // ignore_for_file: unnecessary_lambdas
+import 'domain/parking_place/i_parking_place_repository.dart' as _i4;
+import 'infrastructure/core/firebase_injectable_module.dart' as _i6;
+import 'infrastructure/parking_place/parking_place_repository.dart'
+    as _i5; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
@@ -19,7 +21,9 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
   final firebaseInjectableModule = _$FirebaseInjectableModule();
   gh.lazySingleton<_i3.FirebaseFirestore>(
       () => firebaseInjectableModule.firestore);
+  gh.lazySingleton<_i4.IParkingPlaceRepository>(
+      () => _i5.ParkingPlaceRepository(get<_i3.FirebaseFirestore>()));
   return get;
 }
 
-class _$FirebaseInjectableModule extends _i4.FirebaseInjectableModule {}
+class _$FirebaseInjectableModule extends _i6.FirebaseInjectableModule {}
