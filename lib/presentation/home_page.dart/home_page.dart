@@ -7,22 +7,43 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     _setStatusBarAsTransparent();
     return Scaffold(
-      body: Column(
+      body: Stack(
         children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height * (2 / 5),
-            width: MediaQuery.of(context).size.width,
+          const Positioned(
+            top: 0.0,
+            bottom: 150.0,
+            left: 0.0,
+            right: 0.0,
             child: GoogleMap(
               initialCameraPosition: CameraPosition(
                 target: LatLng(50.317852, 18.667160),
                 zoom: 16.0,
               ),
-              zoomGesturesEnabled: true,
+              zoomControlsEnabled: false,
             ),
           ),
-          const SizedBox(height: 10.0),
-          Expanded(
-            child: Container(),
+          DraggableScrollableSheet(
+            minChildSize: 0.35,
+            maxChildSize: 0.6,
+            builder: (BuildContext context, ScrollController scrollController) {
+              return Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30.0),
+                    topRight: Radius.circular(30.0)
+                  ),
+                ),
+                child: ListView.builder(
+                    controller: scrollController,
+                    itemCount: 20,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ListTile(
+                        title: Text('Item $index'),
+                      );
+                    }),
+              );
+            },
           ),
         ],
       ),
