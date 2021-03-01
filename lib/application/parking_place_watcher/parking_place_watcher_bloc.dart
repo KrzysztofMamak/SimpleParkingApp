@@ -27,7 +27,7 @@ class ParkingPlaceWatcherBloc
     yield* event.map(
       watchAllStarted: (e) async* {
         yield const ParkingPlaceWatcherState.loadInProgress();
-        _parkingPlaceRepository.watchAll().listen(
+        yield* _parkingPlaceRepository.watchAll().map(
               (failureOrParkingPlaces) => failureOrParkingPlaces.fold(
                 (f) => ParkingPlaceWatcherState.loadFailure(f),
                 (parkingPlaces) =>
