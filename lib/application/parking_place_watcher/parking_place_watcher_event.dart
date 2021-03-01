@@ -1,4 +1,6 @@
 part of 'parking_place_watcher_bloc.dart';
 
-@immutable
-abstract class ParkingPlaceWatcherEvent {}
+@freezed
+abstract class ParkingPlaceWatcherEvent with _$ParkingPlaceWatcherEvent {
+  const factory ParkingPlaceWatcherEvent.watchAllStarted() = _WatchAllStarted;
+}
