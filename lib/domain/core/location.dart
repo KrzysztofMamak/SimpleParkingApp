@@ -7,8 +7,8 @@ part 'location.g.dart';
 @freezed
 abstract class Location with _$Location {
   const factory Location({
-    @required double latitude,
-    @required double longitude,
+    @required double lat,
+    @required double lng,
   }) = _Location;
 
   factory Location.fromJson(Map<String, dynamic> json) =>

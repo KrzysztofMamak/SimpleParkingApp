@@ -17,10 +17,10 @@ class _$LocationTearOff {
   const _$LocationTearOff();
 
 // ignore: unused_element
-  _Location call({@required double latitude, @required double longitude}) {
+  _Location call({@required double lat, @required double lng}) {
     return _Location(
-      latitude: latitude,
-      longitude: longitude,
+      lat: lat,
+      lng: lng,
     );
   }
 
@@ -36,8 +36,8 @@ const $Location = _$LocationTearOff();
 
 /// @nodoc
 mixin _$Location {
-  double get latitude;
-  double get longitude;
+  double get lat;
+  double get lng;
 
   Map<String, dynamic> toJson();
   @JsonKey(ignore: true)
@@ -48,7 +48,7 @@ mixin _$Location {
 abstract class $LocationCopyWith<$Res> {
   factory $LocationCopyWith(Location value, $Res Function(Location) then) =
       _$LocationCopyWithImpl<$Res>;
-  $Res call({double latitude, double longitude});
+  $Res call({double lat, double lng});
 }
 
 /// @nodoc
@@ -61,12 +61,12 @@ class _$LocationCopyWithImpl<$Res> implements $LocationCopyWith<$Res> {
 
   @override
   $Res call({
-    Object latitude = freezed,
-    Object longitude = freezed,
+    Object lat = freezed,
+    Object lng = freezed,
   }) {
     return _then(_value.copyWith(
-      latitude: latitude == freezed ? _value.latitude : latitude as double,
-      longitude: longitude == freezed ? _value.longitude : longitude as double,
+      lat: lat == freezed ? _value.lat : lat as double,
+      lng: lng == freezed ? _value.lng : lng as double,
     ));
   }
 }
@@ -76,7 +76,7 @@ abstract class _$LocationCopyWith<$Res> implements $LocationCopyWith<$Res> {
   factory _$LocationCopyWith(_Location value, $Res Function(_Location) then) =
       __$LocationCopyWithImpl<$Res>;
   @override
-  $Res call({double latitude, double longitude});
+  $Res call({double lat, double lng});
 }
 
 /// @nodoc
@@ -90,12 +90,12 @@ class __$LocationCopyWithImpl<$Res> extends _$LocationCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object latitude = freezed,
-    Object longitude = freezed,
+    Object lat = freezed,
+    Object lng = freezed,
   }) {
     return _then(_Location(
-      latitude: latitude == freezed ? _value.latitude : latitude as double,
-      longitude: longitude == freezed ? _value.longitude : longitude as double,
+      lat: lat == freezed ? _value.lat : lat as double,
+      lng: lng == freezed ? _value.lng : lng as double,
     ));
   }
 }
@@ -104,21 +104,21 @@ class __$LocationCopyWithImpl<$Res> extends _$LocationCopyWithImpl<$Res>
 
 /// @nodoc
 class _$_Location with DiagnosticableTreeMixin implements _Location {
-  const _$_Location({@required this.latitude, @required this.longitude})
-      : assert(latitude != null),
-        assert(longitude != null);
+  const _$_Location({@required this.lat, @required this.lng})
+      : assert(lat != null),
+        assert(lng != null);
 
   factory _$_Location.fromJson(Map<String, dynamic> json) =>
       _$_$_LocationFromJson(json);
 
   @override
-  final double latitude;
+  final double lat;
   @override
-  final double longitude;
+  final double lng;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Location(latitude: $latitude, longitude: $longitude)';
+    return 'Location(lat: $lat, lng: $lng)';
   }
 
   @override
@@ -126,27 +126,25 @@ class _$_Location with DiagnosticableTreeMixin implements _Location {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'Location'))
-      ..add(DiagnosticsProperty('latitude', latitude))
-      ..add(DiagnosticsProperty('longitude', longitude));
+      ..add(DiagnosticsProperty('lat', lat))
+      ..add(DiagnosticsProperty('lng', lng));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _Location &&
-            (identical(other.latitude, latitude) ||
-                const DeepCollectionEquality()
-                    .equals(other.latitude, latitude)) &&
-            (identical(other.longitude, longitude) ||
-                const DeepCollectionEquality()
-                    .equals(other.longitude, longitude)));
+            (identical(other.lat, lat) ||
+                const DeepCollectionEquality().equals(other.lat, lat)) &&
+            (identical(other.lng, lng) ||
+                const DeepCollectionEquality().equals(other.lng, lng)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(latitude) ^
-      const DeepCollectionEquality().hash(longitude);
+      const DeepCollectionEquality().hash(lat) ^
+      const DeepCollectionEquality().hash(lng);
 
   @JsonKey(ignore: true)
   @override
@@ -160,15 +158,15 @@ class _$_Location with DiagnosticableTreeMixin implements _Location {
 }
 
 abstract class _Location implements Location {
-  const factory _Location(
-      {@required double latitude, @required double longitude}) = _$_Location;
+  const factory _Location({@required double lat, @required double lng}) =
+      _$_Location;
 
   factory _Location.fromJson(Map<String, dynamic> json) = _$_Location.fromJson;
 
   @override
-  double get latitude;
+  double get lat;
   @override
-  double get longitude;
+  double get lng;
   @override
   @JsonKey(ignore: true)
   _$LocationCopyWith<_Location> get copyWith;

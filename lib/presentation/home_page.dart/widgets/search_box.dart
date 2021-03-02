@@ -43,7 +43,10 @@ class _SearchBoxState extends State<SearchBox> {
         child: Row(
           children: <Widget>[
             if (!_isEditing)
-              const Icon(Icons.search)
+              Icon(
+                Icons.search,
+                color: Colors.grey[800],
+              )
             else
               GestureDetector(
                 onTap: () {
@@ -52,7 +55,10 @@ class _SearchBoxState extends State<SearchBox> {
                     _isEditing = false;
                   });
                 },
-                child: const Icon(Icons.clear),
+                child: Icon(
+                  Icons.clear,
+                  color: Colors.grey[800],
+                ),
               ),
             const SizedBox(width: 16.0),
             Expanded(
@@ -67,7 +73,7 @@ class _SearchBoxState extends State<SearchBox> {
                 decoration: InputDecoration(
                   hintText: 'Search',
                   hintStyle: TextStyle(
-                    color: Colors.grey[300],
+                    color: Colors.grey[400],
                   ),
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
