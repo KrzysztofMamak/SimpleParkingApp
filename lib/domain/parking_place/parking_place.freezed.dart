@@ -19,7 +19,7 @@ class _$ParkingPlaceTearOff {
 // ignore: unused_element
   _ParkingPlace call(
       {@required String id,
-      @required Location location,
+      @required @JsonKey(name: 'coord') Location location,
       @required String name,
       @required String description,
       @required double rating}) {
@@ -45,6 +45,7 @@ const $ParkingPlace = _$ParkingPlaceTearOff();
 /// @nodoc
 mixin _$ParkingPlace {
   String get id;
+  @JsonKey(name: 'coord')
   Location get location;
   String get name;
   String get description;
@@ -62,7 +63,7 @@ abstract class $ParkingPlaceCopyWith<$Res> {
       _$ParkingPlaceCopyWithImpl<$Res>;
   $Res call(
       {String id,
-      Location location,
+      @JsonKey(name: 'coord') Location location,
       String name,
       String description,
       double rating});
@@ -116,7 +117,7 @@ abstract class _$ParkingPlaceCopyWith<$Res>
   @override
   $Res call(
       {String id,
-      Location location,
+      @JsonKey(name: 'coord') Location location,
       String name,
       String description,
       double rating});
@@ -160,7 +161,7 @@ class __$ParkingPlaceCopyWithImpl<$Res> extends _$ParkingPlaceCopyWithImpl<$Res>
 class _$_ParkingPlace implements _ParkingPlace {
   const _$_ParkingPlace(
       {@required this.id,
-      @required this.location,
+      @required @JsonKey(name: 'coord') this.location,
       @required this.name,
       @required this.description,
       @required this.rating})
@@ -176,6 +177,7 @@ class _$_ParkingPlace implements _ParkingPlace {
   @override
   final String id;
   @override
+  @JsonKey(name: 'coord')
   final Location location;
   @override
   final String name;
@@ -230,7 +232,7 @@ class _$_ParkingPlace implements _ParkingPlace {
 abstract class _ParkingPlace implements ParkingPlace {
   const factory _ParkingPlace(
       {@required String id,
-      @required Location location,
+      @required @JsonKey(name: 'coord') Location location,
       @required String name,
       @required String description,
       @required double rating}) = _$_ParkingPlace;
@@ -241,6 +243,7 @@ abstract class _ParkingPlace implements ParkingPlace {
   @override
   String get id;
   @override
+  @JsonKey(name: 'coord')
   Location get location;
   @override
   String get name;

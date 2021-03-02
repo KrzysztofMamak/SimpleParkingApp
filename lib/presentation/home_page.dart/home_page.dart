@@ -14,7 +14,8 @@ class HomePage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ParkingPlaceWatcherBloc>(
-          create: (context) => getIt<ParkingPlaceWatcherBloc>(),
+          create: (context) => getIt<ParkingPlaceWatcherBloc>()
+            ..add(const ParkingPlaceWatcherEvent.watchAllStarted()),
         ),
         BlocProvider<PlacesBloc>(
           create: (context) => getIt<PlacesBloc>(),
