@@ -15,7 +15,9 @@ class PlacesService implements IPlacesService {
     final response =
         await _placesChopperService.getPlaces(query: query, key: _key);
     final json = convert.jsonDecode(response.bodyString);
-    final jsonResults = json['results'] as List<Map<String, dynamic>>;
-    return jsonResults.map((place) => Place.fromJson(place)).toList();
+    final List jsonResults = json['results'] as List;
+    return jsonResults
+        .map((place) => Place.fromJson(place as Map<String, dynamic>))
+        .toList();
   }
 }

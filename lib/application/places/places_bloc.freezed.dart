@@ -14,8 +14,8 @@ class _$PlacesEventTearOff {
   const _$PlacesEventTearOff();
 
 // ignore: unused_element
-  _SearchedPressed searchPressed(String query) {
-    return _SearchedPressed(
+  _SearchPressed searchPressed(String query) {
+    return _SearchPressed(
       query,
     );
   }
@@ -40,11 +40,11 @@ mixin _$PlacesEvent {
   });
   @optionalTypeArgs
   TResult map<TResult extends Object>({
-    @required TResult searchPressed(_SearchedPressed value),
+    @required TResult searchPressed(_SearchPressed value),
   });
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
-    TResult searchPressed(_SearchedPressed value),
+    TResult searchPressed(_SearchPressed value),
     @required TResult orElse(),
   });
 
@@ -79,39 +79,38 @@ class _$PlacesEventCopyWithImpl<$Res> implements $PlacesEventCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$SearchedPressedCopyWith<$Res>
+abstract class _$SearchPressedCopyWith<$Res>
     implements $PlacesEventCopyWith<$Res> {
-  factory _$SearchedPressedCopyWith(
-          _SearchedPressed value, $Res Function(_SearchedPressed) then) =
-      __$SearchedPressedCopyWithImpl<$Res>;
+  factory _$SearchPressedCopyWith(
+          _SearchPressed value, $Res Function(_SearchPressed) then) =
+      __$SearchPressedCopyWithImpl<$Res>;
   @override
   $Res call({String query});
 }
 
 /// @nodoc
-class __$SearchedPressedCopyWithImpl<$Res>
-    extends _$PlacesEventCopyWithImpl<$Res>
-    implements _$SearchedPressedCopyWith<$Res> {
-  __$SearchedPressedCopyWithImpl(
-      _SearchedPressed _value, $Res Function(_SearchedPressed) _then)
-      : super(_value, (v) => _then(v as _SearchedPressed));
+class __$SearchPressedCopyWithImpl<$Res> extends _$PlacesEventCopyWithImpl<$Res>
+    implements _$SearchPressedCopyWith<$Res> {
+  __$SearchPressedCopyWithImpl(
+      _SearchPressed _value, $Res Function(_SearchPressed) _then)
+      : super(_value, (v) => _then(v as _SearchPressed));
 
   @override
-  _SearchedPressed get _value => super._value as _SearchedPressed;
+  _SearchPressed get _value => super._value as _SearchPressed;
 
   @override
   $Res call({
     Object query = freezed,
   }) {
-    return _then(_SearchedPressed(
+    return _then(_SearchPressed(
       query == freezed ? _value.query : query as String,
     ));
   }
 }
 
 /// @nodoc
-class _$_SearchedPressed implements _SearchedPressed {
-  const _$_SearchedPressed(this.query) : assert(query != null);
+class _$_SearchPressed implements _SearchPressed {
+  const _$_SearchPressed(this.query) : assert(query != null);
 
   @override
   final String query;
@@ -124,7 +123,7 @@ class _$_SearchedPressed implements _SearchedPressed {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _SearchedPressed &&
+        (other is _SearchPressed &&
             (identical(other.query, query) ||
                 const DeepCollectionEquality().equals(other.query, query)));
   }
@@ -135,8 +134,8 @@ class _$_SearchedPressed implements _SearchedPressed {
 
   @JsonKey(ignore: true)
   @override
-  _$SearchedPressedCopyWith<_SearchedPressed> get copyWith =>
-      __$SearchedPressedCopyWithImpl<_SearchedPressed>(this, _$identity);
+  _$SearchPressedCopyWith<_SearchPressed> get copyWith =>
+      __$SearchPressedCopyWithImpl<_SearchPressed>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -163,7 +162,7 @@ class _$_SearchedPressed implements _SearchedPressed {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object>({
-    @required TResult searchPressed(_SearchedPressed value),
+    @required TResult searchPressed(_SearchPressed value),
   }) {
     assert(searchPressed != null);
     return searchPressed(this);
@@ -172,7 +171,7 @@ class _$_SearchedPressed implements _SearchedPressed {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
-    TResult searchPressed(_SearchedPressed value),
+    TResult searchPressed(_SearchPressed value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -183,14 +182,14 @@ class _$_SearchedPressed implements _SearchedPressed {
   }
 }
 
-abstract class _SearchedPressed implements PlacesEvent {
-  const factory _SearchedPressed(String query) = _$_SearchedPressed;
+abstract class _SearchPressed implements PlacesEvent {
+  const factory _SearchPressed(String query) = _$_SearchPressed;
 
   @override
   String get query;
   @override
   @JsonKey(ignore: true)
-  _$SearchedPressedCopyWith<_SearchedPressed> get copyWith;
+  _$SearchPressedCopyWith<_SearchPressed> get copyWith;
 }
 
 /// @nodoc

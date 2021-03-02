@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 class SearchBox extends StatefulWidget {
   final TextEditingController textEditingController;
+  final void Function(String) onSubmitted;
 
   const SearchBox({
     @required this.textEditingController,
+    @required this.onSubmitted,
     Key key,
   }) : super(key: key);
 
@@ -70,6 +72,7 @@ class _SearchBoxState extends State<SearchBox> {
                     _isEditing = value.isNotEmpty;
                   });
                 },
+                onSubmitted: widget.onSubmitted,
                 decoration: InputDecoration(
                   hintText: 'Search',
                   hintStyle: TextStyle(

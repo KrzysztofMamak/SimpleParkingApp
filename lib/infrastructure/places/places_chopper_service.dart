@@ -4,7 +4,7 @@ part 'places_chopper_service.chopper.dart';
 
 @ChopperApi(baseUrl: '/maps/api/place')
 abstract class PlacesChopperService extends ChopperService {
-  @Get(path: '/textsearch/json/')
+  @Get(path: '/textsearch/json')
   Future<Response> getPlaces({
     @Query() String query,
     @Query() String key,

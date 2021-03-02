@@ -13,7 +13,7 @@ part 'places_bloc.freezed.dart';
 @injectable
 class PlacesBloc extends Bloc<PlacesEvent, PlacesState> {
   final IPlacesService _placesService;
-  
+
   PlacesBloc(this._placesService) : super(const PlacesState.initial());
 
   @override

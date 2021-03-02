@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:simple_parking_app/application/parking_place_watcher/parking_place_watcher_bloc.dart';
+import 'package:simple_parking_app/application/places/places_bloc.dart';
 import 'package:simple_parking_app/presentation/home_page.dart/widgets/search_box.dart';
 import 'package:simple_parking_app/presentation/routes/router.gr.dart';
 
 class HomePageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final textEditingController = TextEditingController();
+    final _textEditingController = TextEditingController();
     return Stack(
       children: <Widget>[
         GoogleMap(
@@ -18,8 +19,6 @@ class HomePageBody extends StatelessWidget {
             zoom: 16.0,
           ),
           zoomControlsEnabled: false,
-          // onLongPress: (LatLng latlng) =>
-          //     ExtendedNavigator.of(context).pushAddParkingPlacePage(latLng: latLng),
         ),
         Positioned(
           top: 16.0,
@@ -27,55 +26,73 @@ class HomePageBody extends StatelessWidget {
           right: 10.0,
           child: SafeArea(
             child: SearchBox(
-              textEditingController: textEditingController,
+              textEditingController: _textEditingController,
+              onSubmitted: (value) => BlocProvider.of<PlacesBloc>(context)
+                  .add(PlacesEvent.searchPressed(value)),
             ),
           ),
         ),
-        if (false)
-          DraggableScrollableSheet(
-            minChildSize: 0.35,
-            maxChildSize: 0.6,
-            builder: (BuildContext context, ScrollController scrollController) {
-              return Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30.0),
-                      topRight: Radius.circular(30.0)),
+        DraggableScrollableSheet(
+          minChildSize: 0.35,
+          maxChildSize: 0.6,
+          builder: (BuildContext context, ScrollController scrollController) {
+            return Container(
+              padding: const EdgeInsets.only(
+                top: 5.0,
+                left: 5.0,
+                right: 5.0,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(30.0),
+                  topRight: Radius.circular(30.0),
                 ),
-                child: BlocBuilder<ParkingPlaceWatcherBloc,
-                    ParkingPlaceWatcherState>(
-                  builder: (context, state) {
-                    return state.map(
-                      initial: (_) => Container(),
-                      loadInProgress: (_) => const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                      loadSuccess: (state) {
-                        if (state.parkingPlaces.isEmpty) {
-                          return const Center(
-                            child: Text("You don't have any parking places."),
-                          );
-                        } else {
-                          return ListView.builder(
-                              controller: scrollController,
-                              itemCount: state.parkingPlaces.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return ListTile(
-                                  title: Text(state.parkingPlaces[index].name),
-                                );
-                              });
-                        }
-                      },
-                      loadFailure: (state) => Text(
-                        state.parkingPlaceFailure.toString(),
-                      ),
-                    );
-                  },
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 4,
+                      blurRadius: 8,
+                      offset: const Offset(0, 3)),
+                ],
+              ),
+              child: BlocBuilder<PlacesBloc, PlacesState>(
+                builder: (context, state) => state.map(
+                  initial: (_) => const SizedBox.shrink(),
+                  loadInProgress: (_) => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  loadSuccess: (state) => ListView.builder(
+                    controller: scrollController,
+                    itemCount: state.places.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(
+                          state.places[index].name,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        subtitle: Text(
+                          state.places[index].formattedAddress,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        leading: Image.network(
+                          state.places[index].icon,
+                          width: 24.0,
+                          height: 24.0,
+                        ),
+                      );
+                    },
+                  ),
+                  loadFailure: (_) => const Center(
+                    child: Text('Unable to search.'),
+                  ),
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
+        )
       ],
     );
   }
