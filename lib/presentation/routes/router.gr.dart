@@ -8,6 +8,7 @@
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../add_parking_place/add_parking_place_page.dart';
 import '../home_page.dart/home_page.dart';
@@ -38,8 +39,12 @@ class AppRouter extends RouterBase {
       );
     },
     AddParkingPlacePage: (data) {
+      final args = data.getArgs<AddParkingPlacePageArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
-        builder: (context) => AddParkingPlacePage(),
+        builder: (context) => AddParkingPlacePage(
+          key: args.key,
+          latLng: args.latLng,
+        ),
         settings: data,
       );
     },
@@ -53,6 +58,23 @@ class AppRouter extends RouterBase {
 extension AppRouterExtendedNavigatorStateX on ExtendedNavigatorState {
   Future<dynamic> pushHomePage() => push<dynamic>(Routes.homePage);
 
-  Future<dynamic> pushAddParkingPlacePage() =>
-      push<dynamic>(Routes.addParkingPlacePage);
+  Future<dynamic> pushAddParkingPlacePage({
+    Key key,
+    @required LatLng latLng,
+  }) =>
+      push<dynamic>(
+        Routes.addParkingPlacePage,
+        arguments: AddParkingPlacePageArguments(key: key, latLng: latLng),
+      );
+}
+
+/// ************************************************************************
+/// Arguments holder classes
+/// *************************************************************************
+
+/// AddParkingPlacePage arguments holder class
+class AddParkingPlacePageArguments {
+  final Key key;
+  final LatLng latLng;
+  AddParkingPlacePageArguments({this.key, @required this.latLng});
 }
