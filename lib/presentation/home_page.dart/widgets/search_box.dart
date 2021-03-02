@@ -1,0 +1,82 @@
+import 'package:flutter/material.dart';
+
+class SearchBox extends StatefulWidget {
+  final TextEditingController textEditingController;
+
+  const SearchBox({
+    @required this.textEditingController,
+    Key key,
+  }) : super(key: key);
+
+  @override
+  _SearchBoxState createState() => _SearchBoxState();
+}
+
+class _SearchBoxState extends State<SearchBox> {
+  bool _isEditing = false;
+  final _focusNode = FocusNode();
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(_focusNode);
+      },
+      child: Container(
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(
+          vertical: 4.0,
+          horizontal: 16.0,
+        ),
+        height: 50.0,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(50.0),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 4,
+              blurRadius: 8,
+            ),
+          ],
+        ),
+        child: Row(
+          children: <Widget>[
+            if (!_isEditing)
+              const Icon(Icons.search)
+            else
+              GestureDetector(
+                onTap: () {
+                  widget.textEditingController.clear();
+                  setState(() {
+                    _isEditing = false;
+                  });
+                },
+                child: const Icon(Icons.clear),
+              ),
+            const SizedBox(width: 16.0),
+            Expanded(
+              child: TextField(
+                controller: widget.textEditingController,
+                focusNode: _focusNode,
+                onChanged: (value) {
+                  setState(() {
+                    _isEditing = value.isNotEmpty;
+                  });
+                },
+                decoration: InputDecoration(
+                  hintText: 'Search',
+                  hintStyle: TextStyle(
+                    color: Colors.grey[300],
+                  ),
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

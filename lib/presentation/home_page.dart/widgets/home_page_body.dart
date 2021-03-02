@@ -9,6 +9,7 @@ import 'package:simple_parking_app/presentation/routes/router.gr.dart';
 class HomePageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final textEditingController = TextEditingController();
     return Stack(
       children: <Widget>[
         GoogleMap(
@@ -25,7 +26,9 @@ class HomePageBody extends StatelessWidget {
           left: 10.0,
           right: 10.0,
           child: SafeArea(
-            child: SearchBox(),
+            child: SearchBox(
+              textEditingController: textEditingController,
+            ),
           ),
         ),
         if (false)
@@ -77,4 +80,3 @@ class HomePageBody extends StatelessWidget {
     );
   }
 }
-
