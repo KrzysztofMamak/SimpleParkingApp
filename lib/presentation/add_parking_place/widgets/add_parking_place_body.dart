@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:simple_parking_app/application/bloc/add_parking_place_bloc.dart';
 import 'package:simple_parking_app/domain/core/location.dart';
@@ -20,10 +22,11 @@ class AddParkingPlaceBody extends StatefulWidget {
 }
 
 class _AddParkingPlaceBodyState extends State<AddParkingPlaceBody> {
-  String name = '';
-  String description = '';
-  double rating = 0.0;
-  bool addingEnabled = true;
+  String _name = '';
+  String _description = '';
+  double _rating = 3.0;
+  bool _showErrorMessages = false;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -42,63 +45,96 @@ class _AddParkingPlaceBodyState extends State<AddParkingPlaceBody> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            TextFormField(
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.email),
-                labelText: 'Name',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                ),
+            Form(
+              key: _formKey,
+              autovalidateMode: _showErrorMessages
+                  ? AutovalidateMode.always
+                  : AutovalidateMode.disabled,
+              child: Column(
+                children: <Widget>[
+                  TextFormField(
+                    maxLength: 20,
+                    maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.email),
+                      labelText: 'Name',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      ),
+                    ),
+                    autofocus: true,
+                    autocorrect: false,
+                    onChanged: (value) {
+                      _name = value;
+                    },
+                    validator: (value) =>
+                        value.isEmpty ? 'Name must not be empty' : null,
+                  ),
+                  const SizedBox(height: 8.0),
+                  TextFormField(
+                    maxLength: 40,
+                    maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.email),
+                      labelText: 'Description',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      ),
+                    ),
+                    autocorrect: false,
+                    onChanged: (value) {
+                      _description = value;
+                    },
+                    validator: (value) =>
+                        value.isEmpty ? 'Description must not be empty' : null,
+                  ),
+                ],
               ),
-              autofocus: true,
-              autocorrect: false,
-              onChanged: (value) {
-                name = value;
-              },
-              // validator: (value) {},
             ),
-            const SizedBox(height: 8.0),
-            TextFormField(
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.email),
-                labelText: 'Description',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            const SizedBox(height: 16.0),
+            Center(
+              child: RatingBar.builder(
+                initialRating: 3,
+                allowHalfRating: true,
+                itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                itemBuilder: (context, _) => Icon(
+                  Icons.star,
+                  color: Theme.of(context).primaryColor,
                 ),
+                onRatingUpdate: (value) {
+                  _rating = value;
+                },
               ),
-              autocorrect: false,
-              onChanged: (value) {
-                description = value;
-              },
-              // validator: (value) {},
             ),
-            const SizedBox(height: 8.0),
-            FlatButton(
+            const SizedBox(height: 16.0),
+            ElevatedButton(
               onPressed: state.maybeMap(
                 addingInProgress: (_) => () {},
                 orElse: () => () {
                   FocusScope.of(context).unfocus();
-                  context.read<AddParkingPlaceBloc>().add(
-                        AddParkingPlaceEvent.addPressed(
-                          ParkingPlace(
-                            id: Uuid().v1(),
-                            location: Location(
-                              lat: widget.latLng.latitude,
-                              lng: widget.latLng.longitude,
+                  if (_formKey.currentState.validate()) {
+                    context.read<AddParkingPlaceBloc>().add(
+                          AddParkingPlaceEvent.addPressed(
+                            ParkingPlace(
+                              id: Uuid().v1(),
+                              location: Location(
+                                lat: widget.latLng.latitude,
+                                lng: widget.latLng.longitude,
+                              ),
+                              name: _name,
+                              description: _description,
+                              rating: _rating,
                             ),
-                            name: name,
-                            description: description,
-                            rating: 4.5,
                           ),
-                        ),
-                      );
+                        );
+                  } else {
+                    setState(() {
+                      _showErrorMessages = true;
+                    });
+                  }
                 },
               ),
-              color: Theme.of(context).primaryColor,
-              child: const Text(
-                'Submit',
-                style: TextStyle(color: Colors.white),
-              ),
+              child: const Text('Submit'),
             ),
             Expanded(
               child: state.map(
