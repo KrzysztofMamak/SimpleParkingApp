@@ -16,13 +16,16 @@ class HomePageBody extends StatefulWidget {
   _HomePageBodyState createState() => _HomePageBodyState();
 }
 
-class _HomePageBodyState extends State<HomePageBody> {
+class _HomePageBodyState extends State<HomePageBody>
+    with SingleTickerProviderStateMixin {
   final Set<Marker> _markers = HashSet<Marker>();
+  final textEditingController = TextEditingController();
   GoogleMapController _googleMapController;
+  double searchListHeight = 0.0;
+  double maxHeight;
 
   @override
   Widget build(BuildContext context) {
-    final _textEditingController = TextEditingController();
     return BlocListener<ParkingPlaceWatcherBloc, ParkingPlaceWatcherState>(
       listener: (context, state) {
         state.maybeMap(
@@ -44,18 +47,42 @@ class _HomePageBodyState extends State<HomePageBody> {
             },
             onLongPress: (latLng) => ExtendedNavigator.of(context)
                 .pushAddParkingPlacePage(latLng: latLng),
+            onTap: (_) => setState(() {
+              searchListHeight = maxHeight;
+            }),
             markers: _markers,
           ),
+          if (context.read<PlacesBloc>().state.places.isNotEmpty)
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: context.read<PlacesBloc>().state.places.length,
+              itemBuilder: (context, index) {
+                final place = context.read<PlacesBloc>().state.places[index];
+                return ListTile(
+                  title: Text(place.name),
+                  subtitle: Text(place.formattedAddress),
+                  leading: Image.network(place.icon),
+                );
+              },
+            ),
           Positioned(
             top: 16.0,
             left: 10.0,
             right: 10.0,
-            child: SafeArea(
-              child: SearchBox(
-                textEditingController: _textEditingController,
-                onChanged: (value) => BlocProvider.of<PlacesBloc>(context)
-                    .add(PlacesEvent.searchPressed(value)),
-              ),
+            child: Column(
+              children: [
+                SafeArea(
+                  child: SearchBox(
+                    textEditingController: textEditingController,
+                    onChanged: (value) {
+                      context
+                          .read<PlacesBloc>()
+                          .add(PlacesEvent.queryChanged(value));
+                      setState(() {});
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
         ],

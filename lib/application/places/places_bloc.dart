@@ -14,14 +14,13 @@ part 'places_bloc.freezed.dart';
 class PlacesBloc extends Bloc<PlacesEvent, PlacesState> {
   final IPlacesService _placesService;
 
-  PlacesBloc(this._placesService) : super(const PlacesState.initial());
+  PlacesBloc(this._placesService) : super(PlacesState.initial());
 
   @override
   Stream<PlacesState> mapEventToState(
     PlacesEvent event,
   ) async* {
-    yield const PlacesState.loadInProgress();
     final places = await _placesService.getPlacesByQuery(query: event.query);
-    yield PlacesState.loadSuccess(places);
+    yield state.copyWith(places: places);
   }
 }
