@@ -10,6 +10,7 @@ import 'package:simple_parking_app/domain/parking_place/parking_place.dart';
 import 'package:simple_parking_app/domain/places/place.dart';
 import 'package:simple_parking_app/presentation/home_page.dart/widgets/search_box.dart';
 import 'package:simple_parking_app/presentation/routes/router.gr.dart';
+import 'package:uuid/uuid.dart';
 
 class HomePageBody extends StatefulWidget {
   @override
@@ -25,11 +26,9 @@ class _HomePageBodyState extends State<HomePageBody> {
     final _textEditingController = TextEditingController();
     return BlocListener<ParkingPlaceWatcherBloc, ParkingPlaceWatcherState>(
       listener: (context, state) {
-        state.map(
-          initial: (_) {},
-          loadInProgress: (_) {},
+        state.maybeMap(
           loadSuccess: (state) => _addMarkers(state.parkingPlaces),
-          loadFailure: (_) {},
+          orElse: () {},
         );
       },
       child: Stack(
@@ -43,7 +42,6 @@ class _HomePageBodyState extends State<HomePageBody> {
             onMapCreated: (controller) {
               _googleMapController = controller;
             },
-            // onTap: (latLng) => _addMarker(latLng),
             onLongPress: (latLng) => ExtendedNavigator.of(context)
                 .pushAddParkingPlacePage(latLng: latLng),
             markers: _markers,
@@ -138,9 +136,8 @@ class _HomePageBodyState extends State<HomePageBody> {
 
   void _addMarker(LatLng latLng) {
     setState(() {
-      _markers.clear();
       _markers.add(Marker(
-        markerId: MarkerId(latLng.toString()),
+        markerId: MarkerId('chosen_place'),
         position: latLng,
       ));
     });
@@ -148,17 +145,18 @@ class _HomePageBodyState extends State<HomePageBody> {
 
   void _addMarkers(List<ParkingPlace> parkingPlaces) {
     setState(() {
-      _markers.clear();
       _markers.addAll(
         parkingPlaces.map(
           (parkingPlace) => Marker(
-              markerId: MarkerId(parkingPlace.id),
-              position:
-                  LatLng(parkingPlace.location.lat, parkingPlace.location.lat)),
+            markerId: MarkerId(parkingPlace.id),
+            position: LatLng(
+              double.parse((parkingPlace.location.lat).toStringAsFixed(6)),
+              double.parse((parkingPlace.location.lng).toStringAsFixed(6)),
+            ),
+          ),
         ),
       );
     });
-    print(_markers.toString());
   }
 
   void _showPlaceOnMap(LatLng latLng) {
@@ -174,5 +172,9 @@ class _HomePageBodyState extends State<HomePageBody> {
         ),
       ),
     );
+  }
+
+  void showBottomSheetWithParkingPlaceDetails(String parkingPlaceId) {
+    showBottomSheet(context: context, builder: null);
   }
 }
