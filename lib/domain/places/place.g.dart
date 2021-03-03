@@ -18,7 +18,7 @@ _$_Place _$_$_PlaceFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$_$_PlaceToJson(_$_Place instance) => <String, dynamic>{
-      'geometry': instance.geometry,
+      'geometry': instance.geometry?.toJson(),
       'formatted_address': instance.formattedAddress,
       'name': instance.name,
       'icon': instance.icon,

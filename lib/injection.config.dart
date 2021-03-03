@@ -8,12 +8,13 @@ import 'package:cloud_firestore/cloud_firestore.dart' as _i3;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
+import 'application/bloc/add_parking_place_bloc.dart' as _i10;
 import 'application/parking_place_watcher/parking_place_watcher_bloc.dart'
     as _i8;
 import 'application/places/places_bloc.dart' as _i9;
 import 'domain/parking_place/i_parking_place_repository.dart' as _i4;
 import 'domain/places/i_places_service.dart' as _i6;
-import 'infrastructure/core/firebase_injectable_module.dart' as _i10;
+import 'infrastructure/core/firebase_injectable_module.dart' as _i11;
 import 'infrastructure/parking_place/parking_place_repository.dart' as _i5;
 import 'infrastructure/places/places_service.dart'
     as _i7; // ignore_for_file: unnecessary_lambdas
@@ -32,7 +33,9 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
   gh.factory<_i8.ParkingPlaceWatcherBloc>(
       () => _i8.ParkingPlaceWatcherBloc(get<_i4.IParkingPlaceRepository>()));
   gh.factory<_i9.PlacesBloc>(() => _i9.PlacesBloc(get<_i6.IPlacesService>()));
+  gh.factory<_i10.AddParkingPlaceBloc>(
+      () => _i10.AddParkingPlaceBloc(get<_i4.IParkingPlaceRepository>()));
   return get;
 }
 
-class _$FirebaseInjectableModule extends _i10.FirebaseInjectableModule {}
+class _$FirebaseInjectableModule extends _i11.FirebaseInjectableModule {}

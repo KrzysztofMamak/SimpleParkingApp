@@ -21,7 +21,7 @@ _$_ParkingPlace _$_$_ParkingPlaceFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$_$_ParkingPlaceToJson(_$_ParkingPlace instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'coord': instance.location,
+      'coord': instance.location?.toJson(),
       'name': instance.name,
       'description': instance.description,
       'rating': instance.rating,

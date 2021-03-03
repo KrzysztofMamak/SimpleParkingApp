@@ -24,8 +24,8 @@ class _$ParkingPlaceFailureTearOff {
   }
 
 // ignore: unused_element
-  _UnableToUpdate unableToUpdate() {
-    return const _UnableToUpdate();
+  _UnableToAdd unableToAdd() {
+    return const _UnableToAdd();
   }
 }
 
@@ -39,26 +39,26 @@ mixin _$ParkingPlaceFailure {
   TResult when<TResult extends Object>({
     @required TResult unexpected(),
     @required TResult insufficientPermissions(),
-    @required TResult unableToUpdate(),
+    @required TResult unableToAdd(),
   });
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult unexpected(),
     TResult insufficientPermissions(),
-    TResult unableToUpdate(),
+    TResult unableToAdd(),
     @required TResult orElse(),
   });
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult unexpected(_Unexpected value),
     @required TResult insufficientPermissions(_InsufficientPermissions value),
-    @required TResult unableToUpdate(_UnableToUpdate value),
+    @required TResult unableToAdd(_UnableToAdd value),
   });
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult unexpected(_Unexpected value),
     TResult insufficientPermissions(_InsufficientPermissions value),
-    TResult unableToUpdate(_UnableToUpdate value),
+    TResult unableToAdd(_UnableToAdd value),
     @required TResult orElse(),
   });
 }
@@ -121,11 +121,11 @@ class _$_Unexpected implements _Unexpected {
   TResult when<TResult extends Object>({
     @required TResult unexpected(),
     @required TResult insufficientPermissions(),
-    @required TResult unableToUpdate(),
+    @required TResult unableToAdd(),
   }) {
     assert(unexpected != null);
     assert(insufficientPermissions != null);
-    assert(unableToUpdate != null);
+    assert(unableToAdd != null);
     return unexpected();
   }
 
@@ -134,7 +134,7 @@ class _$_Unexpected implements _Unexpected {
   TResult maybeWhen<TResult extends Object>({
     TResult unexpected(),
     TResult insufficientPermissions(),
-    TResult unableToUpdate(),
+    TResult unableToAdd(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -149,11 +149,11 @@ class _$_Unexpected implements _Unexpected {
   TResult map<TResult extends Object>({
     @required TResult unexpected(_Unexpected value),
     @required TResult insufficientPermissions(_InsufficientPermissions value),
-    @required TResult unableToUpdate(_UnableToUpdate value),
+    @required TResult unableToAdd(_UnableToAdd value),
   }) {
     assert(unexpected != null);
     assert(insufficientPermissions != null);
-    assert(unableToUpdate != null);
+    assert(unableToAdd != null);
     return unexpected(this);
   }
 
@@ -162,7 +162,7 @@ class _$_Unexpected implements _Unexpected {
   TResult maybeMap<TResult extends Object>({
     TResult unexpected(_Unexpected value),
     TResult insufficientPermissions(_InsufficientPermissions value),
-    TResult unableToUpdate(_UnableToUpdate value),
+    TResult unableToAdd(_UnableToAdd value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -219,11 +219,11 @@ class _$_InsufficientPermissions implements _InsufficientPermissions {
   TResult when<TResult extends Object>({
     @required TResult unexpected(),
     @required TResult insufficientPermissions(),
-    @required TResult unableToUpdate(),
+    @required TResult unableToAdd(),
   }) {
     assert(unexpected != null);
     assert(insufficientPermissions != null);
-    assert(unableToUpdate != null);
+    assert(unableToAdd != null);
     return insufficientPermissions();
   }
 
@@ -232,7 +232,7 @@ class _$_InsufficientPermissions implements _InsufficientPermissions {
   TResult maybeWhen<TResult extends Object>({
     TResult unexpected(),
     TResult insufficientPermissions(),
-    TResult unableToUpdate(),
+    TResult unableToAdd(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -247,11 +247,11 @@ class _$_InsufficientPermissions implements _InsufficientPermissions {
   TResult map<TResult extends Object>({
     @required TResult unexpected(_Unexpected value),
     @required TResult insufficientPermissions(_InsufficientPermissions value),
-    @required TResult unableToUpdate(_UnableToUpdate value),
+    @required TResult unableToAdd(_UnableToAdd value),
   }) {
     assert(unexpected != null);
     assert(insufficientPermissions != null);
-    assert(unableToUpdate != null);
+    assert(unableToAdd != null);
     return insufficientPermissions(this);
   }
 
@@ -260,7 +260,7 @@ class _$_InsufficientPermissions implements _InsufficientPermissions {
   TResult maybeMap<TResult extends Object>({
     TResult unexpected(_Unexpected value),
     TResult insufficientPermissions(_InsufficientPermissions value),
-    TResult unableToUpdate(_UnableToUpdate value),
+    TResult unableToAdd(_UnableToAdd value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -276,36 +276,36 @@ abstract class _InsufficientPermissions implements ParkingPlaceFailure {
 }
 
 /// @nodoc
-abstract class _$UnableToUpdateCopyWith<$Res> {
-  factory _$UnableToUpdateCopyWith(
-          _UnableToUpdate value, $Res Function(_UnableToUpdate) then) =
-      __$UnableToUpdateCopyWithImpl<$Res>;
+abstract class _$UnableToAddCopyWith<$Res> {
+  factory _$UnableToAddCopyWith(
+          _UnableToAdd value, $Res Function(_UnableToAdd) then) =
+      __$UnableToAddCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$UnableToUpdateCopyWithImpl<$Res>
+class __$UnableToAddCopyWithImpl<$Res>
     extends _$ParkingPlaceFailureCopyWithImpl<$Res>
-    implements _$UnableToUpdateCopyWith<$Res> {
-  __$UnableToUpdateCopyWithImpl(
-      _UnableToUpdate _value, $Res Function(_UnableToUpdate) _then)
-      : super(_value, (v) => _then(v as _UnableToUpdate));
+    implements _$UnableToAddCopyWith<$Res> {
+  __$UnableToAddCopyWithImpl(
+      _UnableToAdd _value, $Res Function(_UnableToAdd) _then)
+      : super(_value, (v) => _then(v as _UnableToAdd));
 
   @override
-  _UnableToUpdate get _value => super._value as _UnableToUpdate;
+  _UnableToAdd get _value => super._value as _UnableToAdd;
 }
 
 /// @nodoc
-class _$_UnableToUpdate implements _UnableToUpdate {
-  const _$_UnableToUpdate();
+class _$_UnableToAdd implements _UnableToAdd {
+  const _$_UnableToAdd();
 
   @override
   String toString() {
-    return 'ParkingPlaceFailure.unableToUpdate()';
+    return 'ParkingPlaceFailure.unableToAdd()';
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is _UnableToUpdate);
+    return identical(this, other) || (other is _UnableToAdd);
   }
 
   @override
@@ -316,12 +316,12 @@ class _$_UnableToUpdate implements _UnableToUpdate {
   TResult when<TResult extends Object>({
     @required TResult unexpected(),
     @required TResult insufficientPermissions(),
-    @required TResult unableToUpdate(),
+    @required TResult unableToAdd(),
   }) {
     assert(unexpected != null);
     assert(insufficientPermissions != null);
-    assert(unableToUpdate != null);
-    return unableToUpdate();
+    assert(unableToAdd != null);
+    return unableToAdd();
   }
 
   @override
@@ -329,12 +329,12 @@ class _$_UnableToUpdate implements _UnableToUpdate {
   TResult maybeWhen<TResult extends Object>({
     TResult unexpected(),
     TResult insufficientPermissions(),
-    TResult unableToUpdate(),
+    TResult unableToAdd(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
-    if (unableToUpdate != null) {
-      return unableToUpdate();
+    if (unableToAdd != null) {
+      return unableToAdd();
     }
     return orElse();
   }
@@ -344,12 +344,12 @@ class _$_UnableToUpdate implements _UnableToUpdate {
   TResult map<TResult extends Object>({
     @required TResult unexpected(_Unexpected value),
     @required TResult insufficientPermissions(_InsufficientPermissions value),
-    @required TResult unableToUpdate(_UnableToUpdate value),
+    @required TResult unableToAdd(_UnableToAdd value),
   }) {
     assert(unexpected != null);
     assert(insufficientPermissions != null);
-    assert(unableToUpdate != null);
-    return unableToUpdate(this);
+    assert(unableToAdd != null);
+    return unableToAdd(this);
   }
 
   @override
@@ -357,17 +357,17 @@ class _$_UnableToUpdate implements _UnableToUpdate {
   TResult maybeMap<TResult extends Object>({
     TResult unexpected(_Unexpected value),
     TResult insufficientPermissions(_InsufficientPermissions value),
-    TResult unableToUpdate(_UnableToUpdate value),
+    TResult unableToAdd(_UnableToAdd value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
-    if (unableToUpdate != null) {
-      return unableToUpdate(this);
+    if (unableToAdd != null) {
+      return unableToAdd(this);
     }
     return orElse();
   }
 }
 
-abstract class _UnableToUpdate implements ParkingPlaceFailure {
-  const factory _UnableToUpdate() = _$_UnableToUpdate;
+abstract class _UnableToAdd implements ParkingPlaceFailure {
+  const factory _UnableToAdd() = _$_UnableToAdd;
 }

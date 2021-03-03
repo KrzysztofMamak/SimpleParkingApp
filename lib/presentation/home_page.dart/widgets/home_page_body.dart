@@ -18,10 +18,10 @@ class HomePageBody extends StatefulWidget {
 
 class _HomePageBodyState extends State<HomePageBody> {
   final Set<Marker> _markers = HashSet<Marker>();
+  GoogleMapController _googleMapController;
 
   @override
   Widget build(BuildContext context) {
-    GoogleMapController _googleMapController;
     final _textEditingController = TextEditingController();
     return BlocListener<ParkingPlaceWatcherBloc, ParkingPlaceWatcherState>(
       listener: (context, state) {
@@ -44,6 +44,8 @@ class _HomePageBodyState extends State<HomePageBody> {
               _googleMapController = controller;
             },
             // onTap: (latLng) => _addMarker(latLng),
+            onLongPress: (latLng) => ExtendedNavigator.of(context)
+                .pushAddParkingPlacePage(latLng: latLng),
             markers: _markers,
           ),
           Positioned(
@@ -53,14 +55,14 @@ class _HomePageBodyState extends State<HomePageBody> {
             child: SafeArea(
               child: SearchBox(
                 textEditingController: _textEditingController,
-                onSubmitted: (value) => BlocProvider.of<PlacesBloc>(context)
+                onChanged: (value) => BlocProvider.of<PlacesBloc>(context)
                     .add(PlacesEvent.searchPressed(value)),
               ),
             ),
           ),
           DraggableScrollableSheet(
             minChildSize: 0.3,
-            maxChildSize: 0.6,
+            maxChildSize: 1,
             initialChildSize: 0.3,
             builder: (BuildContext context, ScrollController scrollController) {
               return Container(
@@ -96,15 +98,10 @@ class _HomePageBodyState extends State<HomePageBody> {
                         final place = state.places[index];
                         return InkWell(
                           onTap: () {
-                            _googleMapController.animateCamera(
-                              CameraUpdate.newCameraPosition(
-                                CameraPosition(
-                                  target: LatLng(place.geometry.location.lat,
-                                      place.geometry.location.lng),
-                                  zoom: 16,
-                                ),
-                              ),
-                            );
+                            _showPlaceOnMap(LatLng(
+                              place.geometry.location.lat,
+                              place.geometry.location.lng,
+                            ));
                           },
                           child: ListTile(
                             title: Text(
@@ -162,5 +159,20 @@ class _HomePageBodyState extends State<HomePageBody> {
       );
     });
     print(_markers.toString());
+  }
+
+  void _showPlaceOnMap(LatLng latLng) {
+    _addMarker(latLng);
+    _googleMapController.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(
+            latLng.latitude,
+            latLng.longitude,
+          ),
+          zoom: 16,
+        ),
+      ),
+    );
   }
 }

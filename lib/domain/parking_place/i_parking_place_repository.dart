@@ -4,7 +4,5 @@ import 'package:simple_parking_app/domain/parking_place/parking_place_failure.da
 
 abstract class IParkingPlaceRepository {
   Stream<Either<ParkingPlaceFailure, List<ParkingPlace>>> watchAll();
-  Future<Either<ParkingPlaceFailure, Unit>> create(ParkingPlace parkingPlace);
-  // Future<Either<ParkingPlaceFailure, Unit>> update(ParkingPlace parkingPlace);
-  // Future<Either<ParkingPlaceFailure, Unit>> delete(ParkingPlace parkingPlace);
+  Future<Either<ParkingPlaceFailure, Unit>> add(ParkingPlace parkingPlace);
 }

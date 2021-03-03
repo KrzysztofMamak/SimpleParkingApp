@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class SearchBox extends StatefulWidget {
   final TextEditingController textEditingController;
-  final void Function(String) onSubmitted;
+  final void Function(String) onChanged;
 
   const SearchBox({
     @required this.textEditingController,
-    @required this.onSubmitted,
+    @required this.onChanged,
     Key key,
   }) : super(key: key);
 
@@ -68,11 +68,11 @@ class _SearchBoxState extends State<SearchBox> {
                 controller: widget.textEditingController,
                 focusNode: _focusNode,
                 onChanged: (value) {
+                  widget.onChanged(value);
                   setState(() {
                     _isEditing = value.isNotEmpty;
                   });
                 },
-                onSubmitted: widget.onSubmitted,
                 decoration: InputDecoration(
                   hintText: 'Search',
                   hintStyle: TextStyle(

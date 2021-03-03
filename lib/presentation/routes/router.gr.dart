@@ -40,12 +40,14 @@ class AppRouter extends RouterBase {
     },
     AddParkingPlacePage: (data) {
       final args = data.getArgs<AddParkingPlacePageArguments>(nullOk: false);
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => AddParkingPlacePage(
+      return PageRouteBuilder<bool>(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            AddParkingPlacePage(
           key: args.key,
           latLng: args.latLng,
         ),
         settings: data,
+        transitionsBuilder: TransitionsBuilders.slideBottom,
       );
     },
   };
@@ -58,11 +60,11 @@ class AppRouter extends RouterBase {
 extension AppRouterExtendedNavigatorStateX on ExtendedNavigatorState {
   Future<dynamic> pushHomePage() => push<dynamic>(Routes.homePage);
 
-  Future<dynamic> pushAddParkingPlacePage({
+  Future<bool> pushAddParkingPlacePage({
     Key key,
     @required LatLng latLng,
   }) =>
-      push<dynamic>(
+      push<bool>(
         Routes.addParkingPlacePage,
         arguments: AddParkingPlacePageArguments(key: key, latLng: latLng),
       );

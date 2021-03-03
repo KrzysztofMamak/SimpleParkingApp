@@ -36,7 +36,7 @@ class ParkingPlaceRepository implements IParkingPlaceRepository {
   }
 
   @override
-  Future<Either<ParkingPlaceFailure, Unit>> create(
+  Future<Either<ParkingPlaceFailure, Unit>> add(
       ParkingPlace parkingPlace) async {
     try {
       final parkingPlaceCollection =
@@ -55,14 +55,4 @@ class ParkingPlaceRepository implements IParkingPlaceRepository {
       }
     }
   }
-
-  // @override
-  // Future<Either<ParkingPlaceFailure, Unit>> delete(ParkingPlace parkingPlace) {
-
-  // }
-
-  // @override
-  // Future<Either<ParkingPlaceFailure, Unit>> update(ParkingPlace parkingPlace) {
-
-  // }
 }
