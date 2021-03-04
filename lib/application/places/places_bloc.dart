@@ -20,7 +20,15 @@ class PlacesBloc extends Bloc<PlacesEvent, PlacesState> {
   Stream<PlacesState> mapEventToState(
     PlacesEvent event,
   ) async* {
-    final places = await _placesService.getPlacesByQuery(query: event.query);
-    yield state.copyWith(places: places);
+    yield* event.map(
+      queryChanged: (e) async* {
+        final places =
+            await _placesService.getPlacesByQuery(query: e.query);
+        yield state.copyWith(places: places);
+      },
+      placesRemoved: (e) async* {
+        yield state.copyWith(places: List.empty());
+      },
+    );
   }
 }

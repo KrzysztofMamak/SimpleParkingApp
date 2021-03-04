@@ -53,17 +53,44 @@ class _HomePageBodyState extends State<HomePageBody>
             markers: _markers,
           ),
           if (context.read<PlacesBloc>().state.places.isNotEmpty)
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: context.read<PlacesBloc>().state.places.length,
-              itemBuilder: (context, index) {
-                final place = context.read<PlacesBloc>().state.places[index];
-                return ListTile(
-                  title: Text(place.name),
-                  subtitle: Text(place.formattedAddress),
-                  leading: Image.network(place.icon),
-                );
-              },
+            Container(
+              padding: const EdgeInsets.only(top: 90.0),
+              color: Colors.white,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: context.read<PlacesBloc>().state.places.length,
+                itemBuilder: (context, index) {
+                  final place = context.read<PlacesBloc>().state.places[index];
+                  return GestureDetector(
+                    onTap: () {
+                      _showPlaceOnMap(LatLng(
+                        place.geometry.location.lat,
+                        place.geometry.location.lng,
+                      ));
+                      context
+                          .read<PlacesBloc>()
+                          .add(const PlacesEvent.placesRemoved());
+                    },
+                    child: ListTile(
+                      title: Text(
+                        place.name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      subtitle: Text(
+                        place.formattedAddress,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      leading: Image.network(
+                        place.icon,
+                        height: 24.0,
+                        width: 24.0,
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
           Positioned(
             top: 16.0,
@@ -75,9 +102,15 @@ class _HomePageBodyState extends State<HomePageBody>
                   child: SearchBox(
                     textEditingController: textEditingController,
                     onChanged: (value) {
-                      context
-                          .read<PlacesBloc>()
-                          .add(PlacesEvent.queryChanged(value));
+                      if (value.isNotEmpty) {
+                        context
+                            .read<PlacesBloc>()
+                            .add(PlacesEvent.queryChanged(value));
+                      } else {
+                        context
+                            .read<PlacesBloc>()
+                            .add(const PlacesEvent.placesRemoved());
+                      }
                       setState(() {});
                     },
                   ),
@@ -92,6 +125,9 @@ class _HomePageBodyState extends State<HomePageBody>
 
   void _addMarker(LatLng latLng) {
     setState(() {
+      _markers.removeWhere(
+        (marker) => marker.markerId.value == 'chosen_place',
+      );
       _markers.add(Marker(
         markerId: MarkerId('chosen_place'),
         position: latLng,
@@ -176,74 +212,3 @@ class _HomePageBodyState extends State<HomePageBody>
     );
   }
 }
-// DraggableScrollableSheet(
-//             minChildSize: 0.3,
-//             maxChildSize: 1,
-//             initialChildSize: 0.3,
-//             builder: (BuildContext context, ScrollController scrollController) {
-//               return Container(
-//                 padding: const EdgeInsets.only(
-//                   top: 5.0,
-//                   left: 5.0,
-//                   right: 5.0,
-//                 ),
-//                 decoration: BoxDecoration(
-//                   color: Colors.white,
-//                   borderRadius: const BorderRadius.only(
-//                     topLeft: Radius.circular(30.0),
-//                     topRight: Radius.circular(30.0),
-//                   ),
-//                   boxShadow: <BoxShadow>[
-//                     BoxShadow(
-//                         color: Colors.grey.withOpacity(0.5),
-//                         spreadRadius: 4,
-//                         blurRadius: 8,
-//                         offset: const Offset(0, 3)),
-//                   ],
-//                 ),
-//                 child: BlocBuilder<PlacesBloc, PlacesState>(
-//                   builder: (context, state) => state.map(
-//                     initial: (_) => const SizedBox.shrink(),
-//                     loadInProgress: (_) => const Center(
-//                       child: CircularProgressIndicator(),
-//                     ),
-//                     loadSuccess: (state) => ListView.builder(
-//                       controller: scrollController,
-//                       itemCount: state.places.length,
-//                       itemBuilder: (context, index) {
-//                         final place = state.places[index];
-//                         return InkWell(
-//                           onTap: () {
-//                             _showPlaceOnMap(LatLng(
-//                               place.geometry.location.lat,
-//                               place.geometry.location.lng,
-//                             ));
-//                           },
-//                           child: ListTile(
-//                             title: Text(
-//                               place.name,
-//                               maxLines: 2,
-//                               overflow: TextOverflow.ellipsis,
-//                             ),
-//                             subtitle: Text(
-//                               place.formattedAddress,
-//                               maxLines: 2,
-//                               overflow: TextOverflow.ellipsis,
-//                             ),
-//                             leading: Image.network(
-//                               place.icon,
-//                               width: 24.0,
-//                               height: 24.0,
-//                             ),
-//                           ),
-//                         );
-//                       },
-//                     ),
-//                     loadFailure: (_) => const Center(
-//                       child: Text('Unable to search.'),
-//                     ),
-//                   ),
-//                 ),
-//               );
-//             },
-//           ),

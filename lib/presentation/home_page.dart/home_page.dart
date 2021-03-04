@@ -22,6 +22,7 @@ class HomePage extends StatelessWidget {
         ),
       ],
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: HomePageBody(),
       ),
     );

@@ -19,6 +19,11 @@ class _$PlacesEventTearOff {
       query,
     );
   }
+
+// ignore: unused_element
+  _PlacesRemoved placesRemoved() {
+    return const _PlacesRemoved();
+  }
 }
 
 /// @nodoc
@@ -27,29 +32,28 @@ const $PlacesEvent = _$PlacesEventTearOff();
 
 /// @nodoc
 mixin _$PlacesEvent {
-  String get query;
-
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult queryChanged(String query),
+    @required TResult placesRemoved(),
   });
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult queryChanged(String query),
+    TResult placesRemoved(),
     @required TResult orElse(),
   });
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult queryChanged(_QueryChanged value),
+    @required TResult placesRemoved(_PlacesRemoved value),
   });
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult queryChanged(_QueryChanged value),
+    TResult placesRemoved(_PlacesRemoved value),
     @required TResult orElse(),
   });
-
-  @JsonKey(ignore: true)
-  $PlacesEventCopyWith<PlacesEvent> get copyWith;
 }
 
 /// @nodoc
@@ -57,7 +61,6 @@ abstract class $PlacesEventCopyWith<$Res> {
   factory $PlacesEventCopyWith(
           PlacesEvent value, $Res Function(PlacesEvent) then) =
       _$PlacesEventCopyWithImpl<$Res>;
-  $Res call({String query});
 }
 
 /// @nodoc
@@ -67,24 +70,13 @@ class _$PlacesEventCopyWithImpl<$Res> implements $PlacesEventCopyWith<$Res> {
   final PlacesEvent _value;
   // ignore: unused_field
   final $Res Function(PlacesEvent) _then;
-
-  @override
-  $Res call({
-    Object query = freezed,
-  }) {
-    return _then(_value.copyWith(
-      query: query == freezed ? _value.query : query as String,
-    ));
-  }
 }
 
 /// @nodoc
-abstract class _$QueryChangedCopyWith<$Res>
-    implements $PlacesEventCopyWith<$Res> {
+abstract class _$QueryChangedCopyWith<$Res> {
   factory _$QueryChangedCopyWith(
           _QueryChanged value, $Res Function(_QueryChanged) then) =
       __$QueryChangedCopyWithImpl<$Res>;
-  @override
   $Res call({String query});
 }
 
@@ -141,8 +133,10 @@ class _$_QueryChanged implements _QueryChanged {
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult queryChanged(String query),
+    @required TResult placesRemoved(),
   }) {
     assert(queryChanged != null);
+    assert(placesRemoved != null);
     return queryChanged(query);
   }
 
@@ -150,6 +144,7 @@ class _$_QueryChanged implements _QueryChanged {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult queryChanged(String query),
+    TResult placesRemoved(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -163,8 +158,10 @@ class _$_QueryChanged implements _QueryChanged {
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult queryChanged(_QueryChanged value),
+    @required TResult placesRemoved(_PlacesRemoved value),
   }) {
     assert(queryChanged != null);
+    assert(placesRemoved != null);
     return queryChanged(this);
   }
 
@@ -172,6 +169,7 @@ class _$_QueryChanged implements _QueryChanged {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult queryChanged(_QueryChanged value),
+    TResult placesRemoved(_PlacesRemoved value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -185,11 +183,99 @@ class _$_QueryChanged implements _QueryChanged {
 abstract class _QueryChanged implements PlacesEvent {
   const factory _QueryChanged(String query) = _$_QueryChanged;
 
-  @override
   String get query;
-  @override
   @JsonKey(ignore: true)
   _$QueryChangedCopyWith<_QueryChanged> get copyWith;
+}
+
+/// @nodoc
+abstract class _$PlacesRemovedCopyWith<$Res> {
+  factory _$PlacesRemovedCopyWith(
+          _PlacesRemoved value, $Res Function(_PlacesRemoved) then) =
+      __$PlacesRemovedCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$PlacesRemovedCopyWithImpl<$Res> extends _$PlacesEventCopyWithImpl<$Res>
+    implements _$PlacesRemovedCopyWith<$Res> {
+  __$PlacesRemovedCopyWithImpl(
+      _PlacesRemoved _value, $Res Function(_PlacesRemoved) _then)
+      : super(_value, (v) => _then(v as _PlacesRemoved));
+
+  @override
+  _PlacesRemoved get _value => super._value as _PlacesRemoved;
+}
+
+/// @nodoc
+class _$_PlacesRemoved implements _PlacesRemoved {
+  const _$_PlacesRemoved();
+
+  @override
+  String toString() {
+    return 'PlacesEvent.placesRemoved()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is _PlacesRemoved);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object>({
+    @required TResult queryChanged(String query),
+    @required TResult placesRemoved(),
+  }) {
+    assert(queryChanged != null);
+    assert(placesRemoved != null);
+    return placesRemoved();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object>({
+    TResult queryChanged(String query),
+    TResult placesRemoved(),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (placesRemoved != null) {
+      return placesRemoved();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object>({
+    @required TResult queryChanged(_QueryChanged value),
+    @required TResult placesRemoved(_PlacesRemoved value),
+  }) {
+    assert(queryChanged != null);
+    assert(placesRemoved != null);
+    return placesRemoved(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object>({
+    TResult queryChanged(_QueryChanged value),
+    TResult placesRemoved(_PlacesRemoved value),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (placesRemoved != null) {
+      return placesRemoved(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _PlacesRemoved implements PlacesEvent {
+  const factory _PlacesRemoved() = _$_PlacesRemoved;
 }
 
 /// @nodoc
