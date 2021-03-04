@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../add_parking_place/add_parking_place_page.dart';
-import '../home_page.dart/home_page.dart';
+import '../home_page/home_page.dart';
 
 class Routes {
   static const String homePage = '/';

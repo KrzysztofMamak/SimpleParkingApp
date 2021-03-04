@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simple_parking_app/application/parking_place_watcher/parking_place_watcher_bloc.dart';
 import 'package:simple_parking_app/application/places/places_bloc.dart';
 import 'package:simple_parking_app/injection.dart';
-import 'package:simple_parking_app/presentation/home_page.dart/widgets/home_page_body.dart';
+import 'package:simple_parking_app/presentation/home_page/widgets/home_page_body.dart';
 
 class HomePage extends StatelessWidget {
   @override

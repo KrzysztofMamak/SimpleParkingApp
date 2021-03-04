@@ -8,12 +8,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:simple_parking_app/application/parking_place_watcher/parking_place_watcher_bloc.dart';
 import 'package:simple_parking_app/application/places/places_bloc.dart';
 import 'package:simple_parking_app/domain/parking_place/parking_place.dart';
-import 'package:simple_parking_app/presentation/home_page.dart/widgets/add_parking_place_info_widget.dart';
-import 'package:simple_parking_app/presentation/home_page.dart/widgets/search_box.dart';
+import 'package:simple_parking_app/presentation/home_page/widgets/add_parking_place_info_widget.dart';
+import 'package:simple_parking_app/presentation/home_page/widgets/search_box.dart';
 import 'package:simple_parking_app/presentation/routes/router.gr.dart';
 import 'package:simple_parking_app/utils/constants.dart';
 import 'package:simple_parking_app/utils/google_map_coord_parser.dart';
-import 'package:simple_parking_app/presentation/routes/router.gr.dart';
 
 class HomePageBody extends StatefulWidget {
   @override
