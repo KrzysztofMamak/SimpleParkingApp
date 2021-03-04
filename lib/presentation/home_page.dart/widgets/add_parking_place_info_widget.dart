@@ -22,10 +22,13 @@ class AddParkingPlaceInfoWidget extends StatelessWidget {
           Icon(Icons.info_outline_rounded,
               color: Theme.of(context).primaryColor),
           const SizedBox(width: 4.0),
-          Text(
-            'Press on the map to add parking',
-            style: TextStyle(
-              color: Colors.blue[800],
+          Expanded(
+            child: Text(
+              'Press on the map to add parking',
+              style: TextStyle(
+                color: Colors.blue[800],
+              ),
+              textAlign: TextAlign.center,
             ),
           ),
         ],
@@ -33,4 +36,3 @@ class AddParkingPlaceInfoWidget extends StatelessWidget {
     );
   }
 }
-

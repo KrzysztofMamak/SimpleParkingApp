@@ -51,10 +51,11 @@ class _HomePageBodyState extends State<HomePageBody>
       child: Stack(
         children: <Widget>[
           _buildGoogleMap(context),
-          Positioned(
+          const Positioned(
             bottom: 100.0,
-            left: MediaQuery.of(context).size.width / 5,
-            child: const AddParkingPlaceInfoWidget(),
+            left: 70,
+            right: 70,
+            child: AddParkingPlaceInfoWidget(),
           ),
           if (context.read<PlacesBloc>().state.places.isNotEmpty)
             _buildPlacesList(context),
