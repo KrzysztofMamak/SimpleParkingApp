@@ -8,8 +8,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:simple_parking_app/application/parking_place_watcher/parking_place_watcher_bloc.dart';
 import 'package:simple_parking_app/application/places/places_bloc.dart';
 import 'package:simple_parking_app/domain/parking_place/parking_place.dart';
-import 'package:simple_parking_app/presentation/home_page.dart/widgets/add_parking_place_widget.dart';
+import 'package:simple_parking_app/presentation/home_page.dart/widgets/add_parking_place_info_widget.dart';
 import 'package:simple_parking_app/presentation/home_page.dart/widgets/search_box.dart';
+import 'package:simple_parking_app/presentation/routes/router.gr.dart';
+import 'package:simple_parking_app/utils/constants.dart';
+import 'package:simple_parking_app/utils/google_map_coord_parser.dart';
 import 'package:simple_parking_app/presentation/routes/router.gr.dart';
 
 class HomePageBody extends StatefulWidget {
@@ -131,10 +134,7 @@ class _HomePageBodyState extends State<HomePageBody>
 
   GoogleMap _buildGoogleMap(BuildContext context) {
     return GoogleMap(
-      initialCameraPosition: const CameraPosition(
-        target: LatLng(50.317852, 18.667160),
-        zoom: 16.0,
-      ),
+      initialCameraPosition: kInitialGoogleMapCameraPosition,
       zoomControlsEnabled: false,
       mapToolbarEnabled: false,
       onMapCreated: (controller) {
@@ -145,6 +145,7 @@ class _HomePageBodyState extends State<HomePageBody>
         _showAddParkingPlaceDialog(latLng);
       },
       onTap: (_) {
+        Navigator.popUntil(context, ModalRoute.withName('/'));
         context.read<PlacesBloc>().add(const PlacesEvent.placesRemoved());
         setState(() {});
         _focusNode.unfocus();
@@ -153,7 +154,7 @@ class _HomePageBodyState extends State<HomePageBody>
     );
   }
 
-  void _addMarker(LatLng latLng) {
+  void _addPlaceMarker(LatLng latLng) {
     setState(() {
       _markers.removeWhere(
         (marker) => marker.markerId.value == 'chosen_place',
@@ -172,8 +173,8 @@ class _HomePageBodyState extends State<HomePageBody>
           (parkingPlace) => Marker(
             markerId: MarkerId(parkingPlace.id),
             position: LatLng(
-              double.parse((parkingPlace.location.lat).toStringAsFixed(6)),
-              double.parse((parkingPlace.location.lng).toStringAsFixed(6)),
+              GoogleMapCoordParser.parseCoord(parkingPlace.location.lat),
+              GoogleMapCoordParser.parseCoord(parkingPlace.location.lng),
             ),
             onTap: () {
               showBottomSheetWithParkingPlaceDetails(parkingPlace);
@@ -186,7 +187,7 @@ class _HomePageBodyState extends State<HomePageBody>
   }
 
   void _showPlaceOnMap(LatLng latLng) {
-    _addMarker(latLng);
+    _addPlaceMarker(latLng);
     _googleMapController.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
@@ -203,27 +204,10 @@ class _HomePageBodyState extends State<HomePageBody>
   void showBottomSheetWithParkingPlaceDetails(ParkingPlace parkingPlace) {
     showBottomSheet(
       context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(15.0),
-        ),
-      ),
+      shape: kFavouriteParkingPlaceBottomSheetShape,
       builder: (context) => Container(
         width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: const BorderRadius.vertical(
-            top: Radius.circular(15.0),
-          ),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 4,
-              blurRadius: 8,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
+        decoration: kFavouriteParkingPlaceBottomSheetDecoration,
         child: Padding(
           padding: const EdgeInsets.symmetric(
             vertical: 8.0,

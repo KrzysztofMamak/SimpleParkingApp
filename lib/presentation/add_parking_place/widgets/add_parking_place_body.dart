@@ -10,6 +10,7 @@ import 'package:simple_parking_app/domain/parking_place/parking_place.dart';
 import 'package:simple_parking_app/presentation/add_parking_place/widgets/add_parking_place_failure_widget.dart';
 import 'package:simple_parking_app/presentation/add_parking_place/widgets/add_parking_place_loading_widget.dart';
 import 'package:simple_parking_app/presentation/add_parking_place/widgets/add_parking_place_success_widget.dart';
+import 'package:simple_parking_app/utils/constants.dart';
 import 'package:uuid/uuid.dart';
 
 class AddParkingPlaceBody extends StatefulWidget {
@@ -80,13 +81,7 @@ class _AddParkingPlaceBodyState extends State<AddParkingPlaceBody> {
     return TextFormField(
       maxLength: 40,
       maxLengthEnforcement: MaxLengthEnforcement.enforced,
-      decoration: const InputDecoration(
-        prefixIcon: Icon(Icons.email),
-        labelText: 'Description',
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        ),
-      ),
+      decoration: kParkingPlaceDescriptionInputDecoration,
       autocorrect: false,
       onChanged: (value) {
         _description = value;
@@ -100,13 +95,7 @@ class _AddParkingPlaceBodyState extends State<AddParkingPlaceBody> {
     return TextFormField(
       maxLength: 20,
       maxLengthEnforcement: MaxLengthEnforcement.enforced,
-      decoration: const InputDecoration(
-        prefixIcon: Icon(Icons.email),
-        labelText: 'Name',
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        ),
-      ),
+      decoration: kParkingPlaceNameInputDecoration,
       autofocus: true,
       autocorrect: false,
       onChanged: (value) {

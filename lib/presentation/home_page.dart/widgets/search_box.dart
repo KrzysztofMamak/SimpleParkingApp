@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simple_parking_app/utils/constants.dart';
 
 class SearchBox extends StatefulWidget {
   final TextEditingController textEditingController;
@@ -34,17 +35,7 @@ class _SearchBoxState extends State<SearchBox> {
           horizontal: 16.0,
         ),
         height: 50.0,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(50.0),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 4,
-              blurRadius: 8,
-            ),
-          ],
-        ),
+        decoration: kSearchBoxDecoration,
         child: Row(
           children: <Widget>[
             if (!_isEditing)
@@ -77,14 +68,7 @@ class _SearchBoxState extends State<SearchBox> {
                     _isEditing = value.isNotEmpty;
                   });
                 },
-                decoration: InputDecoration(
-                  hintText: 'Search',
-                  hintStyle: TextStyle(
-                    color: Colors.grey[400],
-                  ),
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                ),
+                decoration: kSearchBoxInputDecoration,
               ),
             ),
           ],
