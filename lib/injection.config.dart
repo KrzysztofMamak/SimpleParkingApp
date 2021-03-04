@@ -8,7 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart' as _i3;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
-import 'application/bloc/add_parking_place_bloc.dart' as _i10;
+import 'application/add_parking_place/add_parking_place_bloc.dart' as _i10;
 import 'application/parking_place_watcher/parking_place_watcher_bloc.dart'
     as _i8;
 import 'application/places/places_bloc.dart' as _i9;

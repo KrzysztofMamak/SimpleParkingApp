@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:simple_parking_app/application/parking_place_watcher/parking_place_watcher_bloc.dart';
 import 'package:simple_parking_app/application/places/places_bloc.dart';
 import 'package:simple_parking_app/domain/parking_place/parking_place.dart';
+import 'package:simple_parking_app/presentation/home_page.dart/widgets/add_parking_place_widget.dart';
 import 'package:simple_parking_app/presentation/home_page.dart/widgets/search_box.dart';
 import 'package:simple_parking_app/presentation/routes/router.gr.dart';
 
@@ -19,19 +20,19 @@ class HomePageBody extends StatefulWidget {
 class _HomePageBodyState extends State<HomePageBody>
     with SingleTickerProviderStateMixin {
   final Set<Marker> _markers = HashSet<Marker>();
-  final textEditingController = TextEditingController();
+  final _textEditingController = TextEditingController();
   GoogleMapController _googleMapController;
-  FocusNode focusNode;
+  FocusNode _focusNode;
 
   @override
   void initState() {
-    focusNode = FocusNode();
+    _focusNode = FocusNode();
     super.initState();
   }
 
   @override
   void dispose() {
-    focusNode.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -46,130 +47,109 @@ class _HomePageBodyState extends State<HomePageBody>
       },
       child: Stack(
         children: <Widget>[
-          GoogleMap(
-            initialCameraPosition: const CameraPosition(
-              target: LatLng(50.317852, 18.667160),
-              zoom: 16.0,
-            ),
-            zoomControlsEnabled: false,
-            mapToolbarEnabled: false,
-            onMapCreated: (controller) {
-              _googleMapController = controller;
-            },
-            onLongPress: (latLng) {
-              focusNode.unfocus();
-              _showAddParkingPlaceDialog(latLng);
-            },
-            onTap: (_) {
-              context.read<PlacesBloc>().add(const PlacesEvent.placesRemoved());
-              setState(() {});
-              focusNode.unfocus();
-            },
-            markers: _markers,
-          ),
+          _buildGoogleMap(context),
           Positioned(
             bottom: 100.0,
             left: MediaQuery.of(context).size.width / 5,
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 6.0,
-                vertical: 2.0,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50.0),
-                color: Theme.of(context).primaryColor.withOpacity(0.3),
-                border: Border.all(color: Theme.of(context).primaryColor),
-              ),
-              child: Row(
-                children: <Widget>[
-                  Icon(Icons.info_outline_rounded,
-                      color: Theme.of(context).primaryColor),
-                  const SizedBox(width: 4.0),
-                  Text(
-                    'Press on the map to add parking',
-                    style: TextStyle(
-                      color: Colors.blue[800],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            child: const AddParkingPlaceInfoWidget(),
           ),
           if (context.read<PlacesBloc>().state.places.isNotEmpty)
-            Container(
-              padding: const EdgeInsets.only(top: 90.0),
-              color: Colors.white,
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: context.read<PlacesBloc>().state.places.length,
-                itemBuilder: (context, index) {
-                  final place = context.read<PlacesBloc>().state.places[index];
-                  return GestureDetector(
-                    onTap: () {
-                      _showPlaceOnMap(LatLng(
-                        place.geometry.location.lat,
-                        place.geometry.location.lng,
-                      ));
-                      context
-                          .read<PlacesBloc>()
-                          .add(const PlacesEvent.placesRemoved());
-                    },
-                    child: ListTile(
-                      title: Text(
-                        place.name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      subtitle: Text(
-                        place.formattedAddress,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      leading: Image.network(
-                        place.icon,
-                        height: 24.0,
-                        width: 24.0,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
+            _buildPlacesList(context),
           Positioned(
             top: 16.0,
             left: 10.0,
             right: 10.0,
-            child: Column(
-              children: [
-                SafeArea(
-                  child: SearchBox(
-                    textEditingController: textEditingController,
-                    focusNode: focusNode,
-                    onChanged: (value) {
-                      if (value.isNotEmpty) {
-                        context
-                            .read<PlacesBloc>()
-                            .add(PlacesEvent.queryChanged(value));
-                      } else {
-                        context
-                            .read<PlacesBloc>()
-                            .add(const PlacesEvent.placesRemoved());
-                      }
-                      setState(() {});
-                    },
-                    onCleared: () {
-                      context
-                          .read<PlacesBloc>()
-                          .add(const PlacesEvent.placesRemoved());
-                      setState(() {});
-                    },
-                  ),
-                ),
-              ],
+            child: SafeArea(
+              child: _buildSearchBox(context),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  SearchBox _buildSearchBox(BuildContext context) {
+    final placesBloc = context.read<PlacesBloc>();
+    return SearchBox(
+      textEditingController: _textEditingController,
+      focusNode: _focusNode,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          placesBloc.add(PlacesEvent.queryChanged(value));
+        } else {
+          placesBloc.add(const PlacesEvent.placesRemoved());
+        }
+        setState(() {});
+      },
+      onCleared: () {
+        placesBloc.add(const PlacesEvent.placesRemoved());
+        setState(() {});
+      },
+    );
+  }
+
+  Container _buildPlacesList(BuildContext context) {
+    final placesBloc = context.read<PlacesBloc>();
+    return Container(
+      padding: const EdgeInsets.only(top: 90.0),
+      color: Colors.white,
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: placesBloc.state.places.length,
+        itemBuilder: (context, index) {
+          final place = placesBloc.state.places[index];
+          return GestureDetector(
+            onTap: () {
+              _showPlaceOnMap(LatLng(
+                place.geometry.location.lat,
+                place.geometry.location.lng,
+              ));
+              placesBloc.add(const PlacesEvent.placesRemoved());
+            },
+            child: ListTile(
+              title: Text(
+                place.name,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              subtitle: Text(
+                place.formattedAddress,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              leading: Image.network(
+                place.icon,
+                height: 24.0,
+                width: 24.0,
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  GoogleMap _buildGoogleMap(BuildContext context) {
+    return GoogleMap(
+      initialCameraPosition: const CameraPosition(
+        target: LatLng(50.317852, 18.667160),
+        zoom: 16.0,
+      ),
+      zoomControlsEnabled: false,
+      mapToolbarEnabled: false,
+      onMapCreated: (controller) {
+        _googleMapController = controller;
+      },
+      onLongPress: (latLng) {
+        _focusNode.unfocus();
+        _showAddParkingPlaceDialog(latLng);
+      },
+      onTap: (_) {
+        context.read<PlacesBloc>().add(const PlacesEvent.placesRemoved());
+        setState(() {});
+        _focusNode.unfocus();
+      },
+      markers: _markers,
     );
   }
 
@@ -254,14 +234,14 @@ class _HomePageBodyState extends State<HomePageBody>
             children: <Widget>[
               Text(
                 parkingPlace.name,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               const SizedBox(height: 8.0),
               Text(parkingPlace.description,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.grey,
                   )),
               const SizedBox(height: 8.0),

@@ -22,11 +22,6 @@ class _$ParkingPlaceFailureTearOff {
   _InsufficientPermissions insufficientPermissions() {
     return const _InsufficientPermissions();
   }
-
-// ignore: unused_element
-  _UnableToAdd unableToAdd() {
-    return const _UnableToAdd();
-  }
 }
 
 /// @nodoc
@@ -39,26 +34,22 @@ mixin _$ParkingPlaceFailure {
   TResult when<TResult extends Object>({
     @required TResult unexpected(),
     @required TResult insufficientPermissions(),
-    @required TResult unableToAdd(),
   });
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult unexpected(),
     TResult insufficientPermissions(),
-    TResult unableToAdd(),
     @required TResult orElse(),
   });
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult unexpected(_Unexpected value),
     @required TResult insufficientPermissions(_InsufficientPermissions value),
-    @required TResult unableToAdd(_UnableToAdd value),
   });
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult unexpected(_Unexpected value),
     TResult insufficientPermissions(_InsufficientPermissions value),
-    TResult unableToAdd(_UnableToAdd value),
     @required TResult orElse(),
   });
 }
@@ -121,11 +112,9 @@ class _$_Unexpected implements _Unexpected {
   TResult when<TResult extends Object>({
     @required TResult unexpected(),
     @required TResult insufficientPermissions(),
-    @required TResult unableToAdd(),
   }) {
     assert(unexpected != null);
     assert(insufficientPermissions != null);
-    assert(unableToAdd != null);
     return unexpected();
   }
 
@@ -134,7 +123,6 @@ class _$_Unexpected implements _Unexpected {
   TResult maybeWhen<TResult extends Object>({
     TResult unexpected(),
     TResult insufficientPermissions(),
-    TResult unableToAdd(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -149,11 +137,9 @@ class _$_Unexpected implements _Unexpected {
   TResult map<TResult extends Object>({
     @required TResult unexpected(_Unexpected value),
     @required TResult insufficientPermissions(_InsufficientPermissions value),
-    @required TResult unableToAdd(_UnableToAdd value),
   }) {
     assert(unexpected != null);
     assert(insufficientPermissions != null);
-    assert(unableToAdd != null);
     return unexpected(this);
   }
 
@@ -162,7 +148,6 @@ class _$_Unexpected implements _Unexpected {
   TResult maybeMap<TResult extends Object>({
     TResult unexpected(_Unexpected value),
     TResult insufficientPermissions(_InsufficientPermissions value),
-    TResult unableToAdd(_UnableToAdd value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -219,11 +204,9 @@ class _$_InsufficientPermissions implements _InsufficientPermissions {
   TResult when<TResult extends Object>({
     @required TResult unexpected(),
     @required TResult insufficientPermissions(),
-    @required TResult unableToAdd(),
   }) {
     assert(unexpected != null);
     assert(insufficientPermissions != null);
-    assert(unableToAdd != null);
     return insufficientPermissions();
   }
 
@@ -232,7 +215,6 @@ class _$_InsufficientPermissions implements _InsufficientPermissions {
   TResult maybeWhen<TResult extends Object>({
     TResult unexpected(),
     TResult insufficientPermissions(),
-    TResult unableToAdd(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -247,11 +229,9 @@ class _$_InsufficientPermissions implements _InsufficientPermissions {
   TResult map<TResult extends Object>({
     @required TResult unexpected(_Unexpected value),
     @required TResult insufficientPermissions(_InsufficientPermissions value),
-    @required TResult unableToAdd(_UnableToAdd value),
   }) {
     assert(unexpected != null);
     assert(insufficientPermissions != null);
-    assert(unableToAdd != null);
     return insufficientPermissions(this);
   }
 
@@ -260,7 +240,6 @@ class _$_InsufficientPermissions implements _InsufficientPermissions {
   TResult maybeMap<TResult extends Object>({
     TResult unexpected(_Unexpected value),
     TResult insufficientPermissions(_InsufficientPermissions value),
-    TResult unableToAdd(_UnableToAdd value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -273,101 +252,4 @@ class _$_InsufficientPermissions implements _InsufficientPermissions {
 
 abstract class _InsufficientPermissions implements ParkingPlaceFailure {
   const factory _InsufficientPermissions() = _$_InsufficientPermissions;
-}
-
-/// @nodoc
-abstract class _$UnableToAddCopyWith<$Res> {
-  factory _$UnableToAddCopyWith(
-          _UnableToAdd value, $Res Function(_UnableToAdd) then) =
-      __$UnableToAddCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$UnableToAddCopyWithImpl<$Res>
-    extends _$ParkingPlaceFailureCopyWithImpl<$Res>
-    implements _$UnableToAddCopyWith<$Res> {
-  __$UnableToAddCopyWithImpl(
-      _UnableToAdd _value, $Res Function(_UnableToAdd) _then)
-      : super(_value, (v) => _then(v as _UnableToAdd));
-
-  @override
-  _UnableToAdd get _value => super._value as _UnableToAdd;
-}
-
-/// @nodoc
-class _$_UnableToAdd implements _UnableToAdd {
-  const _$_UnableToAdd();
-
-  @override
-  String toString() {
-    return 'ParkingPlaceFailure.unableToAdd()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) || (other is _UnableToAdd);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object>({
-    @required TResult unexpected(),
-    @required TResult insufficientPermissions(),
-    @required TResult unableToAdd(),
-  }) {
-    assert(unexpected != null);
-    assert(insufficientPermissions != null);
-    assert(unableToAdd != null);
-    return unableToAdd();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object>({
-    TResult unexpected(),
-    TResult insufficientPermissions(),
-    TResult unableToAdd(),
-    @required TResult orElse(),
-  }) {
-    assert(orElse != null);
-    if (unableToAdd != null) {
-      return unableToAdd();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object>({
-    @required TResult unexpected(_Unexpected value),
-    @required TResult insufficientPermissions(_InsufficientPermissions value),
-    @required TResult unableToAdd(_UnableToAdd value),
-  }) {
-    assert(unexpected != null);
-    assert(insufficientPermissions != null);
-    assert(unableToAdd != null);
-    return unableToAdd(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object>({
-    TResult unexpected(_Unexpected value),
-    TResult insufficientPermissions(_InsufficientPermissions value),
-    TResult unableToAdd(_UnableToAdd value),
-    @required TResult orElse(),
-  }) {
-    assert(orElse != null);
-    if (unableToAdd != null) {
-      return unableToAdd(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _UnableToAdd implements ParkingPlaceFailure {
-  const factory _UnableToAdd() = _$_UnableToAdd;
 }

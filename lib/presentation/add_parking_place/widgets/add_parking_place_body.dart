@@ -4,9 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:simple_parking_app/application/bloc/add_parking_place_bloc.dart';
+import 'package:simple_parking_app/application/add_parking_place/add_parking_place_bloc.dart';
 import 'package:simple_parking_app/domain/core/location.dart';
 import 'package:simple_parking_app/domain/parking_place/parking_place.dart';
+import 'package:simple_parking_app/presentation/add_parking_place/widgets/add_parking_place_failure_widget.dart';
+import 'package:simple_parking_app/presentation/add_parking_place/widgets/add_parking_place_loading_widget.dart';
+import 'package:simple_parking_app/presentation/add_parking_place/widgets/add_parking_place_success_widget.dart';
 import 'package:uuid/uuid.dart';
 
 class AddParkingPlaceBody extends StatefulWidget {
@@ -45,134 +48,133 @@ class _AddParkingPlaceBodyState extends State<AddParkingPlaceBody> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Form(
-              key: _formKey,
-              autovalidateMode: _showErrorMessages
-                  ? AutovalidateMode.always
-                  : AutovalidateMode.disabled,
-              child: Column(
-                children: <Widget>[
-                  TextFormField(
-                    maxLength: 20,
-                    maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                    decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.email),
-                      labelText: 'Name',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      ),
-                    ),
-                    autofocus: true,
-                    autocorrect: false,
-                    onChanged: (value) {
-                      _name = value;
-                    },
-                    validator: (value) =>
-                        value.isEmpty ? 'Name must not be empty' : null,
-                  ),
-                  const SizedBox(height: 8.0),
-                  TextFormField(
-                    maxLength: 40,
-                    maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                    decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.email),
-                      labelText: 'Description',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      ),
-                    ),
-                    autocorrect: false,
-                    onChanged: (value) {
-                      _description = value;
-                    },
-                    validator: (value) =>
-                        value.isEmpty ? 'Description must not be empty' : null,
-                  ),
-                ],
-              ),
-            ),
+            _buildAddParkingPlaceForm(),
             const SizedBox(height: 16.0),
-            Center(
-              child: RatingBar.builder(
-                initialRating: 3,
-                allowHalfRating: true,
-                itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                itemBuilder: (context, _) => Icon(
-                  Icons.star,
-                  color: Theme.of(context).primaryColor,
-                ),
-                onRatingUpdate: (value) {
-                  _rating = value;
-                },
-              ),
-            ),
+            _buildRatingBar(),
             const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: state.maybeMap(
-                addingInProgress: (_) => () {},
-                orElse: () => () {
-                  FocusScope.of(context).unfocus();
-                  if (_formKey.currentState.validate()) {
-                    context.read<AddParkingPlaceBloc>().add(
-                          AddParkingPlaceEvent.addPressed(
-                            ParkingPlace(
-                              id: Uuid().v1(),
-                              location: Location(
-                                lat: widget.latLng.latitude,
-                                lng: widget.latLng.longitude,
-                              ),
-                              name: _name,
-                              description: _description,
-                              rating: _rating,
-                            ),
-                          ),
-                        );
-                  } else {
-                    setState(() {
-                      _showErrorMessages = true;
-                    });
-                  }
-                },
-              ),
-              child: const Text('Submit'),
-            ),
-            Expanded(
-              child: state.map(
-                initial: (_) => const SizedBox.shrink(),
-                addingInProgress: (_) => Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const <Widget>[
-                      CircularProgressIndicator(),
-                      SizedBox(height: 8.0),
-                      Text('Saving...'),
-                    ],
-                  ),
-                ),
-                addingSuccess: (_) => Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const <Widget>[
-                      Icon(Icons.check),
-                      SizedBox(height: 8.0),
-                      Text('Your parking place has been saved.'),
-                    ],
-                  ),
-                ),
-                addingFailure: (_) => Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const <Widget>[
-                      Icon(Icons.check),
-                      SizedBox(height: 8.0),
-                      Text('Oops. Something went wrong.'),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            _buildSubmitButton(state, context),
+            _buildFeedbackWidget(state),
           ],
         ),
+      ),
+    );
+  }
+
+  Form _buildAddParkingPlaceForm() {
+    return Form(
+      key: _formKey,
+      autovalidateMode: _showErrorMessages
+          ? AutovalidateMode.always
+          : AutovalidateMode.disabled,
+      child: Column(
+        children: <Widget>[
+          _buildNameFormField(),
+          const SizedBox(height: 8.0),
+          _buildDescriptionFormField(),
+        ],
+      ),
+    );
+  }
+
+  TextFormField _buildDescriptionFormField() {
+    return TextFormField(
+      maxLength: 40,
+      maxLengthEnforcement: MaxLengthEnforcement.enforced,
+      decoration: const InputDecoration(
+        prefixIcon: Icon(Icons.email),
+        labelText: 'Description',
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        ),
+      ),
+      autocorrect: false,
+      onChanged: (value) {
+        _description = value;
+      },
+      validator: (value) =>
+          value.isEmpty ? 'Description must not be empty' : null,
+    );
+  }
+
+  TextFormField _buildNameFormField() {
+    return TextFormField(
+      maxLength: 20,
+      maxLengthEnforcement: MaxLengthEnforcement.enforced,
+      decoration: const InputDecoration(
+        prefixIcon: Icon(Icons.email),
+        labelText: 'Name',
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        ),
+      ),
+      autofocus: true,
+      autocorrect: false,
+      onChanged: (value) {
+        _name = value;
+      },
+      validator: (value) => value.isEmpty ? 'Name must not be empty' : null,
+    );
+  }
+
+  Expanded _buildFeedbackWidget(AddParkingPlaceState state) {
+    return Expanded(
+      child: Center(
+        child: state.map(
+          initial: (_) => const SizedBox.shrink(),
+          addingInProgress: (_) => const AddParkingPlaceLoadingWidget(),
+          addingSuccess: (_) => const AddParkingPlaceSuccessWidget(),
+          addingFailure: (_) => const AddParkingPlaceFailureWidget(),
+        ),
+      ),
+    );
+  }
+
+  ElevatedButton _buildSubmitButton(
+      AddParkingPlaceState state, BuildContext context) {
+    return ElevatedButton(
+      onPressed: state.maybeMap(
+        addingInProgress: (_) => () {},
+        orElse: () => () {
+          FocusScope.of(context).unfocus();
+          if (_formKey.currentState.validate()) {
+            context.read<AddParkingPlaceBloc>().add(
+                  AddParkingPlaceEvent.addPressed(
+                    ParkingPlace(
+                      id: Uuid().v1(),
+                      location: Location(
+                        lat: widget.latLng.latitude,
+                        lng: widget.latLng.longitude,
+                      ),
+                      name: _name,
+                      description: _description,
+                      rating: _rating,
+                    ),
+                  ),
+                );
+          } else {
+            setState(() {
+              _showErrorMessages = true;
+            });
+          }
+        },
+      ),
+      child: const Text('Submit'),
+    );
+  }
+
+  Center _buildRatingBar() {
+    return Center(
+      child: RatingBar.builder(
+        initialRating: 3,
+        allowHalfRating: true,
+        itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+        itemBuilder: (context, _) => Icon(
+          Icons.star,
+          color: Theme.of(context).primaryColor,
+        ),
+        onRatingUpdate: (value) {
+          _rating = value;
+        },
       ),
     );
   }

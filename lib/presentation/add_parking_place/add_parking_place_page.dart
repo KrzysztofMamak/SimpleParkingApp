@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:simple_parking_app/application/bloc/add_parking_place_bloc.dart';
+import 'package:simple_parking_app/application/add_parking_place/add_parking_place_bloc.dart';
 import 'package:simple_parking_app/injection.dart';
 import 'package:simple_parking_app/presentation/add_parking_place/widgets/add_parking_place_body.dart';
 

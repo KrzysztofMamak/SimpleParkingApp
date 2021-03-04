@@ -6,5 +6,4 @@ part 'parking_place_failure.freezed.dart';
 abstract class ParkingPlaceFailure with _$ParkingPlaceFailure {
   const factory ParkingPlaceFailure.unexpected() = _Unexpected;
   const factory ParkingPlaceFailure.insufficientPermissions() = _InsufficientPermissions;
-  const factory ParkingPlaceFailure.unableToAdd() = _UnableToAdd;
 }
