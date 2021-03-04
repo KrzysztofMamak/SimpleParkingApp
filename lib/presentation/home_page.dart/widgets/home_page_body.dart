@@ -62,16 +62,14 @@ class _HomePageBodyState extends State<HomePageBody>
             },
             onTap: (_) {
               context.read<PlacesBloc>().add(const PlacesEvent.placesRemoved());
-              setState(() {
-                
-              });
+              setState(() {});
               focusNode.unfocus();
             },
             markers: _markers,
           ),
           Positioned(
             bottom: 100.0,
-            left: MediaQuery.of(context).size.width / 4,
+            left: MediaQuery.of(context).size.width / 5,
             child: Container(
               padding: const EdgeInsets.symmetric(
                 horizontal: 6.0,
@@ -84,9 +82,15 @@ class _HomePageBodyState extends State<HomePageBody>
               ),
               child: Row(
                 children: <Widget>[
-                  Icon(Icons.info_outline_rounded, color: Theme.of(context).primaryColor),
+                  Icon(Icons.info_outline_rounded,
+                      color: Theme.of(context).primaryColor),
                   const SizedBox(width: 4.0),
-                  Text('Press map to add parking', style: TextStyle(color: Colors.blue[800],),),
+                  Text(
+                    'Press on the map to add parking',
+                    style: TextStyle(
+                      color: Colors.blue[800],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -154,10 +158,10 @@ class _HomePageBodyState extends State<HomePageBody>
                       setState(() {});
                     },
                     onCleared: () {
-                      context.read<PlacesBloc>().add(const PlacesEvent.placesRemoved());
-                      setState(() {
-                        
-                      });
+                      context
+                          .read<PlacesBloc>()
+                          .add(const PlacesEvent.placesRemoved());
+                      setState(() {});
                     },
                   ),
                 ),
@@ -186,14 +190,16 @@ class _HomePageBodyState extends State<HomePageBody>
       _markers.addAll(
         parkingPlaces.map(
           (parkingPlace) => Marker(
-              markerId: MarkerId(parkingPlace.id),
-              position: LatLng(
-                double.parse((parkingPlace.location.lat).toStringAsFixed(6)),
-                double.parse((parkingPlace.location.lng).toStringAsFixed(6)),
-              ),
-              onTap: () {
-                showBottomSheetWithParkingPlaceDetails(parkingPlace);
-              }),
+            markerId: MarkerId(parkingPlace.id),
+            position: LatLng(
+              double.parse((parkingPlace.location.lat).toStringAsFixed(6)),
+              double.parse((parkingPlace.location.lng).toStringAsFixed(6)),
+            ),
+            onTap: () {
+              showBottomSheetWithParkingPlaceDetails(parkingPlace);
+            },
+            icon: BitmapDescriptor.defaultMarkerWithHue(205.0),
+          ),
         ),
       );
     });
@@ -217,12 +223,17 @@ class _HomePageBodyState extends State<HomePageBody>
   void showBottomSheetWithParkingPlaceDetails(ParkingPlace parkingPlace) {
     showBottomSheet(
       context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(15.0),
+        ),
+      ),
       builder: (context) => Container(
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: const BorderRadius.vertical(
-            top: Radius.circular(30.0),
+            top: Radius.circular(15.0),
           ),
           boxShadow: <BoxShadow>[
             BoxShadow(
@@ -234,13 +245,25 @@ class _HomePageBodyState extends State<HomePageBody>
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(
+            vertical: 8.0,
+            horizontal: 16.0,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text(parkingPlace.name),
+              Text(
+                parkingPlace.name,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
               const SizedBox(height: 8.0),
-              Text(parkingPlace.description),
+              Text(parkingPlace.description,
+                  style: TextStyle(
+                    color: Colors.grey,
+                  )),
               const SizedBox(height: 8.0),
               RatingBarIndicator(
                 rating: parkingPlace.rating,
