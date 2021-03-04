@@ -21,8 +21,19 @@ class _HomePageBodyState extends State<HomePageBody>
   final Set<Marker> _markers = HashSet<Marker>();
   final textEditingController = TextEditingController();
   GoogleMapController _googleMapController;
-  double searchListHeight = 0.0;
-  double maxHeight;
+  FocusNode focusNode;
+
+  @override
+  void initState() {
+    focusNode = FocusNode();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    focusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +56,40 @@ class _HomePageBodyState extends State<HomePageBody>
             onMapCreated: (controller) {
               _googleMapController = controller;
             },
-            onLongPress: (latLng) => ExtendedNavigator.of(context)
-                .pushAddParkingPlacePage(latLng: latLng),
-            onTap: (_) => setState(() {
-              searchListHeight = maxHeight;
-            }),
+            onLongPress: (latLng) {
+              focusNode.unfocus();
+              _showAddParkingPlaceDialog(latLng);
+            },
+            onTap: (_) {
+              context.read<PlacesBloc>().add(const PlacesEvent.placesRemoved());
+              setState(() {
+                
+              });
+              focusNode.unfocus();
+            },
             markers: _markers,
+          ),
+          Positioned(
+            bottom: 100.0,
+            left: MediaQuery.of(context).size.width / 4,
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 6.0,
+                vertical: 2.0,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50.0),
+                color: Theme.of(context).primaryColor.withOpacity(0.3),
+                border: Border.all(color: Theme.of(context).primaryColor),
+              ),
+              child: Row(
+                children: <Widget>[
+                  Icon(Icons.info_outline_rounded, color: Theme.of(context).primaryColor),
+                  const SizedBox(width: 4.0),
+                  Text('Press map to add parking', style: TextStyle(color: Colors.blue[800],),),
+                ],
+              ),
+            ),
           ),
           if (context.read<PlacesBloc>().state.places.isNotEmpty)
             Container(
@@ -101,6 +140,7 @@ class _HomePageBodyState extends State<HomePageBody>
                 SafeArea(
                   child: SearchBox(
                     textEditingController: textEditingController,
+                    focusNode: focusNode,
                     onChanged: (value) {
                       if (value.isNotEmpty) {
                         context
@@ -112,6 +152,12 @@ class _HomePageBodyState extends State<HomePageBody>
                             .add(const PlacesEvent.placesRemoved());
                       }
                       setState(() {});
+                    },
+                    onCleared: () {
+                      context.read<PlacesBloc>().add(const PlacesEvent.placesRemoved());
+                      setState(() {
+                        
+                      });
                     },
                   ),
                 ),
@@ -199,7 +245,6 @@ class _HomePageBodyState extends State<HomePageBody>
               RatingBarIndicator(
                 rating: parkingPlace.rating,
                 itemSize: 24.0,
-                direction: Axis.horizontal,
                 itemBuilder: (context, index) => Icon(
                   Icons.star,
                   color: Theme.of(context).primaryColor,
@@ -208,6 +253,31 @@ class _HomePageBodyState extends State<HomePageBody>
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void _showAddParkingPlaceDialog(LatLng latLng) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Adding parking place'),
+        content: const Text(
+            'Do you want to add this place as your favourite parking?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('NO'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              ExtendedNavigator.of(context)
+                  .pushAddParkingPlacePage(latLng: latLng);
+            },
+            child: const Text('YES'),
+          ),
+        ],
       ),
     );
   }

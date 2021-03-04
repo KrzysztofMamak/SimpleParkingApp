@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 
 class SearchBox extends StatefulWidget {
   final TextEditingController textEditingController;
+  final FocusNode focusNode;
   final void Function(String) onChanged;
+  final void Function() onCleared;
 
   const SearchBox({
     @required this.textEditingController,
+    @required this.focusNode,
     @required this.onChanged,
+    @required this.onCleared,
     Key key,
   }) : super(key: key);
 
@@ -16,13 +20,12 @@ class SearchBox extends StatefulWidget {
 
 class _SearchBoxState extends State<SearchBox> {
   bool _isEditing = false;
-  final _focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context).requestFocus(_focusNode);
+        FocusScope.of(context).requestFocus(widget.focusNode);
       },
       child: Container(
         alignment: Alignment.center,
@@ -56,6 +59,7 @@ class _SearchBoxState extends State<SearchBox> {
                   setState(() {
                     _isEditing = false;
                   });
+                  widget.onCleared();
                 },
                 child: Icon(
                   Icons.clear,
@@ -66,7 +70,7 @@ class _SearchBoxState extends State<SearchBox> {
             Expanded(
               child: TextField(
                 controller: widget.textEditingController,
-                focusNode: _focusNode,
+                focusNode: widget.focusNode,
                 onChanged: (value) {
                   widget.onChanged(value);
                   setState(() {
