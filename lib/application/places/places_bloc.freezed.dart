@@ -283,9 +283,12 @@ class _$PlacesStateTearOff {
   const _$PlacesStateTearOff();
 
 // ignore: unused_element
-  _PlacesState call({@required List<Place> places}) {
+  _PlacesState call(
+      {@required List<Place> places,
+      @required Option<PlacesFailure> placesFailureOrSuccessOption}) {
     return _PlacesState(
       places: places,
+      placesFailureOrSuccessOption: placesFailureOrSuccessOption,
     );
   }
 }
@@ -297,6 +300,7 @@ const $PlacesState = _$PlacesStateTearOff();
 /// @nodoc
 mixin _$PlacesState {
   List<Place> get places;
+  Option<PlacesFailure> get placesFailureOrSuccessOption;
 
   @JsonKey(ignore: true)
   $PlacesStateCopyWith<PlacesState> get copyWith;
@@ -307,7 +311,8 @@ abstract class $PlacesStateCopyWith<$Res> {
   factory $PlacesStateCopyWith(
           PlacesState value, $Res Function(PlacesState) then) =
       _$PlacesStateCopyWithImpl<$Res>;
-  $Res call({List<Place> places});
+  $Res call(
+      {List<Place> places, Option<PlacesFailure> placesFailureOrSuccessOption});
 }
 
 /// @nodoc
@@ -321,9 +326,13 @@ class _$PlacesStateCopyWithImpl<$Res> implements $PlacesStateCopyWith<$Res> {
   @override
   $Res call({
     Object places = freezed,
+    Object placesFailureOrSuccessOption = freezed,
   }) {
     return _then(_value.copyWith(
       places: places == freezed ? _value.places : places as List<Place>,
+      placesFailureOrSuccessOption: placesFailureOrSuccessOption == freezed
+          ? _value.placesFailureOrSuccessOption
+          : placesFailureOrSuccessOption as Option<PlacesFailure>,
     ));
   }
 }
@@ -335,7 +344,8 @@ abstract class _$PlacesStateCopyWith<$Res>
           _PlacesState value, $Res Function(_PlacesState) then) =
       __$PlacesStateCopyWithImpl<$Res>;
   @override
-  $Res call({List<Place> places});
+  $Res call(
+      {List<Place> places, Option<PlacesFailure> placesFailureOrSuccessOption});
 }
 
 /// @nodoc
@@ -351,23 +361,32 @@ class __$PlacesStateCopyWithImpl<$Res> extends _$PlacesStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object places = freezed,
+    Object placesFailureOrSuccessOption = freezed,
   }) {
     return _then(_PlacesState(
       places: places == freezed ? _value.places : places as List<Place>,
+      placesFailureOrSuccessOption: placesFailureOrSuccessOption == freezed
+          ? _value.placesFailureOrSuccessOption
+          : placesFailureOrSuccessOption as Option<PlacesFailure>,
     ));
   }
 }
 
 /// @nodoc
 class _$_PlacesState implements _PlacesState {
-  const _$_PlacesState({@required this.places}) : assert(places != null);
+  const _$_PlacesState(
+      {@required this.places, @required this.placesFailureOrSuccessOption})
+      : assert(places != null),
+        assert(placesFailureOrSuccessOption != null);
 
   @override
   final List<Place> places;
+  @override
+  final Option<PlacesFailure> placesFailureOrSuccessOption;
 
   @override
   String toString() {
-    return 'PlacesState(places: $places)';
+    return 'PlacesState(places: $places, placesFailureOrSuccessOption: $placesFailureOrSuccessOption)';
   }
 
   @override
@@ -375,12 +394,19 @@ class _$_PlacesState implements _PlacesState {
     return identical(this, other) ||
         (other is _PlacesState &&
             (identical(other.places, places) ||
-                const DeepCollectionEquality().equals(other.places, places)));
+                const DeepCollectionEquality().equals(other.places, places)) &&
+            (identical(other.placesFailureOrSuccessOption,
+                    placesFailureOrSuccessOption) ||
+                const DeepCollectionEquality().equals(
+                    other.placesFailureOrSuccessOption,
+                    placesFailureOrSuccessOption)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(places);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(places) ^
+      const DeepCollectionEquality().hash(placesFailureOrSuccessOption);
 
   @JsonKey(ignore: true)
   @override
@@ -389,10 +415,15 @@ class _$_PlacesState implements _PlacesState {
 }
 
 abstract class _PlacesState implements PlacesState {
-  const factory _PlacesState({@required List<Place> places}) = _$_PlacesState;
+  const factory _PlacesState(
+          {@required List<Place> places,
+          @required Option<PlacesFailure> placesFailureOrSuccessOption}) =
+      _$_PlacesState;
 
   @override
   List<Place> get places;
+  @override
+  Option<PlacesFailure> get placesFailureOrSuccessOption;
   @override
   @JsonKey(ignore: true)
   _$PlacesStateCopyWith<_PlacesState> get copyWith;
