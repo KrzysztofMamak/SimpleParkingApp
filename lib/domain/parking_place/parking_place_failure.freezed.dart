@@ -19,6 +19,11 @@ class _$ParkingPlaceFailureTearOff {
   }
 
 // ignore: unused_element
+  _Offline offline() {
+    return const _Offline();
+  }
+
+// ignore: unused_element
   _InsufficientPermissions insufficientPermissions() {
     return const _InsufficientPermissions();
   }
@@ -33,22 +38,26 @@ mixin _$ParkingPlaceFailure {
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult unexpected(),
+    @required TResult offline(),
     @required TResult insufficientPermissions(),
   });
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult unexpected(),
+    TResult offline(),
     TResult insufficientPermissions(),
     @required TResult orElse(),
   });
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult unexpected(_Unexpected value),
+    @required TResult offline(_Offline value),
     @required TResult insufficientPermissions(_InsufficientPermissions value),
   });
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult unexpected(_Unexpected value),
+    TResult offline(_Offline value),
     TResult insufficientPermissions(_InsufficientPermissions value),
     @required TResult orElse(),
   });
@@ -111,9 +120,11 @@ class _$_Unexpected implements _Unexpected {
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult unexpected(),
+    @required TResult offline(),
     @required TResult insufficientPermissions(),
   }) {
     assert(unexpected != null);
+    assert(offline != null);
     assert(insufficientPermissions != null);
     return unexpected();
   }
@@ -122,6 +133,7 @@ class _$_Unexpected implements _Unexpected {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult unexpected(),
+    TResult offline(),
     TResult insufficientPermissions(),
     @required TResult orElse(),
   }) {
@@ -136,9 +148,11 @@ class _$_Unexpected implements _Unexpected {
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult unexpected(_Unexpected value),
+    @required TResult offline(_Offline value),
     @required TResult insufficientPermissions(_InsufficientPermissions value),
   }) {
     assert(unexpected != null);
+    assert(offline != null);
     assert(insufficientPermissions != null);
     return unexpected(this);
   }
@@ -147,6 +161,7 @@ class _$_Unexpected implements _Unexpected {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult unexpected(_Unexpected value),
+    TResult offline(_Offline value),
     TResult insufficientPermissions(_InsufficientPermissions value),
     @required TResult orElse(),
   }) {
@@ -160,6 +175,101 @@ class _$_Unexpected implements _Unexpected {
 
 abstract class _Unexpected implements ParkingPlaceFailure {
   const factory _Unexpected() = _$_Unexpected;
+}
+
+/// @nodoc
+abstract class _$OfflineCopyWith<$Res> {
+  factory _$OfflineCopyWith(_Offline value, $Res Function(_Offline) then) =
+      __$OfflineCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$OfflineCopyWithImpl<$Res>
+    extends _$ParkingPlaceFailureCopyWithImpl<$Res>
+    implements _$OfflineCopyWith<$Res> {
+  __$OfflineCopyWithImpl(_Offline _value, $Res Function(_Offline) _then)
+      : super(_value, (v) => _then(v as _Offline));
+
+  @override
+  _Offline get _value => super._value as _Offline;
+}
+
+/// @nodoc
+class _$_Offline implements _Offline {
+  const _$_Offline();
+
+  @override
+  String toString() {
+    return 'ParkingPlaceFailure.offline()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is _Offline);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object>({
+    @required TResult unexpected(),
+    @required TResult offline(),
+    @required TResult insufficientPermissions(),
+  }) {
+    assert(unexpected != null);
+    assert(offline != null);
+    assert(insufficientPermissions != null);
+    return offline();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object>({
+    TResult unexpected(),
+    TResult offline(),
+    TResult insufficientPermissions(),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (offline != null) {
+      return offline();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object>({
+    @required TResult unexpected(_Unexpected value),
+    @required TResult offline(_Offline value),
+    @required TResult insufficientPermissions(_InsufficientPermissions value),
+  }) {
+    assert(unexpected != null);
+    assert(offline != null);
+    assert(insufficientPermissions != null);
+    return offline(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object>({
+    TResult unexpected(_Unexpected value),
+    TResult offline(_Offline value),
+    TResult insufficientPermissions(_InsufficientPermissions value),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (offline != null) {
+      return offline(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Offline implements ParkingPlaceFailure {
+  const factory _Offline() = _$_Offline;
 }
 
 /// @nodoc
@@ -203,9 +313,11 @@ class _$_InsufficientPermissions implements _InsufficientPermissions {
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult unexpected(),
+    @required TResult offline(),
     @required TResult insufficientPermissions(),
   }) {
     assert(unexpected != null);
+    assert(offline != null);
     assert(insufficientPermissions != null);
     return insufficientPermissions();
   }
@@ -214,6 +326,7 @@ class _$_InsufficientPermissions implements _InsufficientPermissions {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult unexpected(),
+    TResult offline(),
     TResult insufficientPermissions(),
     @required TResult orElse(),
   }) {
@@ -228,9 +341,11 @@ class _$_InsufficientPermissions implements _InsufficientPermissions {
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult unexpected(_Unexpected value),
+    @required TResult offline(_Offline value),
     @required TResult insufficientPermissions(_InsufficientPermissions value),
   }) {
     assert(unexpected != null);
+    assert(offline != null);
     assert(insufficientPermissions != null);
     return insufficientPermissions(this);
   }
@@ -239,6 +354,7 @@ class _$_InsufficientPermissions implements _InsufficientPermissions {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult unexpected(_Unexpected value),
+    TResult offline(_Offline value),
     TResult insufficientPermissions(_InsufficientPermissions value),
     @required TResult orElse(),
   }) {

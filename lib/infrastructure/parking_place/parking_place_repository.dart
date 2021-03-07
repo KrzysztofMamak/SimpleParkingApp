@@ -5,6 +5,7 @@ import 'package:simple_parking_app/domain/parking_place/i_parking_place_reposito
 import 'package:simple_parking_app/domain/parking_place/parking_place_failure.dart';
 import 'package:simple_parking_app/domain/parking_place/parking_place.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:simple_parking_app/utils/connectivity_helper.dart';
 
 @LazySingleton(as: IParkingPlaceRepository)
 class ParkingPlaceRepository implements IParkingPlaceRepository {
@@ -14,6 +15,10 @@ class ParkingPlaceRepository implements IParkingPlaceRepository {
 
   @override
   Stream<Either<ParkingPlaceFailure, List<ParkingPlace>>> watchAll() async* {
+    final connectivity = await ConnectivityHelper.isOnline();
+    if (!connectivity) {
+      yield left(const ParkingPlaceFailure.offline());
+    }
     final parkingPlaceCollection =
         _firebaseFirestore.collection('parking_places');
     yield* parkingPlaceCollection
@@ -38,6 +43,10 @@ class ParkingPlaceRepository implements IParkingPlaceRepository {
   @override
   Future<Either<ParkingPlaceFailure, Unit>> add(
       ParkingPlace parkingPlace) async {
+    final connectivity = await ConnectivityHelper.isOnline();
+    if (!connectivity) {
+      return left(const ParkingPlaceFailure.offline());
+    }
     try {
       final parkingPlaceCollection =
           _firebaseFirestore.collection('parking_places');

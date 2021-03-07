@@ -8,6 +8,7 @@ import 'package:simple_parking_app/application/add_parking_place/add_parking_pla
 import 'package:simple_parking_app/domain/core/location.dart';
 import 'package:simple_parking_app/domain/parking_place/parking_place.dart';
 import 'package:simple_parking_app/presentation/add_parking_place/widgets/add_parking_place_failure_widget.dart';
+import 'package:simple_parking_app/presentation/add_parking_place/widgets/add_parking_place_feedback_widget.dart';
 import 'package:simple_parking_app/presentation/add_parking_place/widgets/add_parking_place_loading_widget.dart';
 import 'package:simple_parking_app/presentation/add_parking_place/widgets/add_parking_place_success_widget.dart';
 import 'package:simple_parking_app/utils/constants.dart';
@@ -110,9 +111,28 @@ class _AddParkingPlaceBodyState extends State<AddParkingPlaceBody> {
       child: Center(
         child: state.map(
           initial: (_) => const SizedBox.shrink(),
-          addingInProgress: (_) => const AddParkingPlaceLoadingWidget(),
-          addingSuccess: (_) => const AddParkingPlaceSuccessWidget(),
-          addingFailure: (_) => const AddParkingPlaceFailureWidget(),
+          addingInProgress: (_) => const AddParkingPlaceFeedbackWidget(
+            widget: CircularProgressIndicator(),
+            message: 'Saving...',
+          ),
+          addingSuccess: (_) => const AddParkingPlaceFeedbackWidget(
+            widget: Icon(Icons.check),
+            message: 'Your parking place has been saved.',
+          ),
+          addingFailure: (state) => state.failure.map(
+            unexpected: (_) => const AddParkingPlaceFeedbackWidget(
+              widget: Icon(Icons.clear),
+              message: 'Oops. Something went wrong.',
+            ),
+            offline: (_) => const AddParkingPlaceFeedbackWidget(
+              widget: Icon(Icons.clear),
+              message: 'No Internet.',
+            ),
+            insufficientPermissions: (_) => const AddParkingPlaceFeedbackWidget(
+              widget: Icon(Icons.clear),
+              message: 'Insufficient permissions..',
+            ),
+          ),
         ),
       ),
     );

@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:simple_parking_app/domain/places/i_places_service.dart';
 import 'package:simple_parking_app/domain/places/place.dart';
+import 'package:simple_parking_app/domain/places/places_failure.dart';
 
 part 'places_event.dart';
 part 'places_state.dart';
@@ -22,9 +24,16 @@ class PlacesBloc extends Bloc<PlacesEvent, PlacesState> {
   ) async* {
     yield* event.map(
       queryChanged: (e) async* {
-        final places =
-            await _placesService.getPlacesByQuery(query: e.query);
-        yield state.copyWith(places: places);
+        final places = await _placesService.getPlacesByQuery(query: e.query);
+        yield places.fold(
+          (f) => state.copyWith(
+            placesFailureOrSuccessOption: some(f),
+          ),
+          (places) => state.copyWith(
+            places: places,
+            placesFailureOrSuccessOption: none(),
+          ),
+        );
       },
       placesRemoved: (e) async* {
         yield state.copyWith(places: List.empty());

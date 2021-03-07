@@ -4,9 +4,11 @@ part of 'places_bloc.dart';
 abstract class PlacesState with _$PlacesState {
   const factory PlacesState({
     @required List<Place> places,
+    @required Option<PlacesFailure> placesFailureOrSuccessOption,
   }) = _PlacesState;
 
   factory PlacesState.initial() => PlacesState(
-    places: List.empty(),
-  );
+        places: List.empty(),
+        placesFailureOrSuccessOption: none(),
+      );
 }
