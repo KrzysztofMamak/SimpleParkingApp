@@ -38,3 +38,8 @@ const places = [
     icon: '',
   ),
 ];
+
+const parkingPlaces = [
+  parkingPlace,
+  parkingPlace,
+];

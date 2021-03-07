@@ -19,50 +19,88 @@ void main() {
     bloc = PlacesBloc(mockPlacesService);
   });
 
-  blocTest(
-    'Success ...',
-    build: () {
-      when(mockPlacesService.getPlacesByQuery(query: ''))
-          .thenAnswer((_) async => right(places));
-      return bloc;
-    },
-    act: (bloc) => bloc.add(const PlacesEvent.queryChanged('')),
-    expect: [
-      PlacesState(
-        places: places,
-        placesFailureOrSuccessOption: none(),
-      )
-    ],
-  );
+  group('Downloading places', () {
+    group('Success', () {
+      blocTest(
+        'sets PlacesState fields (non-empty list, none()) when non-empty list is downloaded',
+        build: () {
+          when(mockPlacesService.getPlacesByQuery(query: 'London'))
+              .thenAnswer((_) async => right(places));
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const PlacesEvent.queryChanged('London')),
+        expect: [
+          PlacesState(
+            places: places,
+            placesFailureOrSuccessOption: none(),
+          )
+        ],
+      );
 
-  blocTest(
-    'Success 0 elements ...',
-    build: () {
-      when(mockPlacesService.getPlacesByQuery(query: ''))
-          .thenAnswer((_) async => right(List.empty()));
-      return bloc;
-    },
-    act: (bloc) => bloc.add(const PlacesEvent.queryChanged('')),
-    expect: [
-      PlacesState(
-        places: List.empty(),
-        placesFailureOrSuccessOption: none(),
-      )
-    ],
-  );
+      blocTest(
+        'sets PlacesState fields (empty list, none()) when empty list is downloaded',
+        build: () {
+          when(mockPlacesService.getPlacesByQuery(query: ''))
+              .thenAnswer((_) async => right(List.empty()));
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const PlacesEvent.queryChanged('')),
+        expect: [
+          PlacesState(
+            places: List.empty(),
+            placesFailureOrSuccessOption: none(),
+          )
+        ],
+      );
+    });
 
-  blocTest(
-    'Offline ...',
-    build: () {
-      when(mockPlacesService.getPlacesByQuery(query: ''))
-          .thenAnswer((_) async => left(const PlacesFailure.offline()));
-      return bloc;
-    },
-    act: (bloc) => bloc.add(const PlacesEvent.queryChanged('')),
-    expect: [
-      PlacesState(
+    group('Failure', () {
+      blocTest(
+        'sets PlacesState fields (empty list, some(offline)) when offline',
+        build: () {
+          when(mockPlacesService.getPlacesByQuery(query: ''))
+              .thenAnswer((_) async => left(const PlacesFailure.offline()));
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const PlacesEvent.queryChanged('')),
+        expect: [
+          PlacesState(
+            places: List.empty(),
+            placesFailureOrSuccessOption: some(const PlacesFailure.offline()),
+          )
+        ],
+      );
+
+      blocTest(
+        'sets PlacesState fields (empty list, some(unexpected)) when unexpected error occured',
+        build: () {
+          when(mockPlacesService.getPlacesByQuery(query: ''))
+              .thenAnswer((_) async => left(const PlacesFailure.unexpected()));
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const PlacesEvent.queryChanged('')),
+        expect: [
+          PlacesState(
+            places: List.empty(),
+            placesFailureOrSuccessOption:
+                some(const PlacesFailure.unexpected()),
+          )
+        ],
+      );
+    });
+  });
+
+  group('Removing places', () {
+    blocTest(
+      'sets PlacesState fields (empty list, none()) when plases were removed',
+      build: () => bloc,
+      act: (bloc) => bloc.add(const PlacesEvent.placesRemoved()),
+      expect: [
+        PlacesState(
           places: List.empty(),
-          placesFailureOrSuccessOption: some(const PlacesFailure.offline()))
-    ],
-  );
+          placesFailureOrSuccessOption: none(),
+        ),
+      ],
+    );
+  });
 }

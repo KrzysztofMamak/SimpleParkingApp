@@ -5,4 +5,5 @@ part 'places_failure.freezed.dart';
 @freezed
 abstract class PlacesFailure with _$PlacesFailure {
   const factory PlacesFailure.offline() = _Offline;
+  const factory PlacesFailure.unexpected() = _Unexpected;
 }

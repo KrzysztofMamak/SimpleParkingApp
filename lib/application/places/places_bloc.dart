@@ -36,7 +36,10 @@ class PlacesBloc extends Bloc<PlacesEvent, PlacesState> {
         );
       },
       placesRemoved: (e) async* {
-        yield state.copyWith(places: List.empty());
+        yield state.copyWith(
+          places: List.empty(),
+          placesFailureOrSuccessOption: none(),
+        );
       },
     );
   }

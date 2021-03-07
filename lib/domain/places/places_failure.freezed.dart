@@ -17,6 +17,11 @@ class _$PlacesFailureTearOff {
   _Offline offline() {
     return const _Offline();
   }
+
+// ignore: unused_element
+  _Unexpected unexpected() {
+    return const _Unexpected();
+  }
 }
 
 /// @nodoc
@@ -28,19 +33,23 @@ mixin _$PlacesFailure {
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult offline(),
+    @required TResult unexpected(),
   });
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult offline(),
+    TResult unexpected(),
     @required TResult orElse(),
   });
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult offline(_Offline value),
+    @required TResult unexpected(_Unexpected value),
   });
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult offline(_Offline value),
+    TResult unexpected(_Unexpected value),
     @required TResult orElse(),
   });
 }
@@ -99,8 +108,10 @@ class _$_Offline implements _Offline {
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult offline(),
+    @required TResult unexpected(),
   }) {
     assert(offline != null);
+    assert(unexpected != null);
     return offline();
   }
 
@@ -108,6 +119,7 @@ class _$_Offline implements _Offline {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult offline(),
+    TResult unexpected(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -121,8 +133,10 @@ class _$_Offline implements _Offline {
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult offline(_Offline value),
+    @required TResult unexpected(_Unexpected value),
   }) {
     assert(offline != null);
+    assert(unexpected != null);
     return offline(this);
   }
 
@@ -130,6 +144,7 @@ class _$_Offline implements _Offline {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult offline(_Offline value),
+    TResult unexpected(_Unexpected value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -142,4 +157,94 @@ class _$_Offline implements _Offline {
 
 abstract class _Offline implements PlacesFailure {
   const factory _Offline() = _$_Offline;
+}
+
+/// @nodoc
+abstract class _$UnexpectedCopyWith<$Res> {
+  factory _$UnexpectedCopyWith(
+          _Unexpected value, $Res Function(_Unexpected) then) =
+      __$UnexpectedCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$UnexpectedCopyWithImpl<$Res> extends _$PlacesFailureCopyWithImpl<$Res>
+    implements _$UnexpectedCopyWith<$Res> {
+  __$UnexpectedCopyWithImpl(
+      _Unexpected _value, $Res Function(_Unexpected) _then)
+      : super(_value, (v) => _then(v as _Unexpected));
+
+  @override
+  _Unexpected get _value => super._value as _Unexpected;
+}
+
+/// @nodoc
+class _$_Unexpected implements _Unexpected {
+  const _$_Unexpected();
+
+  @override
+  String toString() {
+    return 'PlacesFailure.unexpected()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is _Unexpected);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object>({
+    @required TResult offline(),
+    @required TResult unexpected(),
+  }) {
+    assert(offline != null);
+    assert(unexpected != null);
+    return unexpected();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object>({
+    TResult offline(),
+    TResult unexpected(),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (unexpected != null) {
+      return unexpected();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object>({
+    @required TResult offline(_Offline value),
+    @required TResult unexpected(_Unexpected value),
+  }) {
+    assert(offline != null);
+    assert(unexpected != null);
+    return unexpected(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object>({
+    TResult offline(_Offline value),
+    TResult unexpected(_Unexpected value),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (unexpected != null) {
+      return unexpected(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Unexpected implements PlacesFailure {
+  const factory _Unexpected() = _$_Unexpected;
 }

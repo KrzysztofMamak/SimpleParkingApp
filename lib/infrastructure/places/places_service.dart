@@ -16,18 +16,22 @@ class PlacesService implements IPlacesService {
   @override
   Future<Either<PlacesFailure, List<Place>>> getPlacesByQuery(
       {String query}) async {
-        final connectivity = await ConnectivityHelper.isOnline();
+    final connectivity = await ConnectivityHelper.isOnline();
     if (!connectivity) {
       return left(const PlacesFailure.offline());
     }
-    final response =
-        await _placesChopperService.getPlaces(query: query, key: kApiKey);
-    final json = convert.jsonDecode(response.bodyString);
-    final List jsonResults = json['results'] as List;
-    return right(
-      jsonResults
-          .map((place) => Place.fromJson(place as Map<String, dynamic>))
-          .toList(),
-    );
+    try {
+      final response =
+          await _placesChopperService.getPlaces(query: query, key: kApiKey);
+      final json = convert.jsonDecode(response.bodyString);
+      final List jsonResults = json['results'] as List;
+      return right(
+        jsonResults
+            .map((place) => Place.fromJson(place as Map<String, dynamic>))
+            .toList(),
+      );
+    } catch (_) {
+      return left(const PlacesFailure.unexpected());
+    }
   }
 }

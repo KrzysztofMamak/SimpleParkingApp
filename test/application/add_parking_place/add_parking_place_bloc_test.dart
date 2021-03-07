@@ -19,72 +19,83 @@ void main() {
     bloc = AddParkingPlaceBloc(mockParkingPlaceRepository);
   });
 
-  test('Success ...', () {
-    when(mockParkingPlaceRepository.add(parkingPlace))
-        .thenAnswer((_) async => right(unit));
+  group('Success', () {
+    test(
+        'emits [addingInProgress, addingSuccess] '
+        'when parkingPlace successfully added', () {
+      when(mockParkingPlaceRepository.add(parkingPlace))
+          .thenAnswer((_) async => right(unit));
 
-    bloc.add(const AddParkingPlaceEvent.addPressed(parkingPlace));
+      bloc.add(const AddParkingPlaceEvent.addPressed(parkingPlace));
 
-    expectLater(
-      bloc,
-      emitsInOrder([
-        const AddParkingPlaceState.addingInProgress(),
-        const AddParkingPlaceState.addingSuccess(),
-      ]),
-    );
+      expectLater(
+        bloc,
+        emitsInOrder([
+          const AddParkingPlaceState.addingInProgress(),
+          const AddParkingPlaceState.addingSuccess(),
+        ]),
+      );
+    });
   });
 
-  test('Unexpected ...', () {
-    when(mockParkingPlaceRepository.add(parkingPlace))
-        .thenAnswer((_) async => left(const ParkingPlaceFailure.unexpected()));
+  group('Failure', () {
+    test(
+        'emits [addingInProgress, addingFailure(unexpected)] '
+        'when unexpected error occured', () {
+      when(mockParkingPlaceRepository.add(parkingPlace)).thenAnswer(
+          (_) async => left(const ParkingPlaceFailure.unexpected()));
 
-    bloc.add(const AddParkingPlaceEvent.addPressed(parkingPlace));
+      bloc.add(const AddParkingPlaceEvent.addPressed(parkingPlace));
 
-    expectLater(
-      bloc,
-      emitsInOrder([
-        const AddParkingPlaceState.addingInProgress(),
-        const AddParkingPlaceState.addingFailure(
-            ParkingPlaceFailure.unexpected()),
-      ]),
-    );
-  });
+      expectLater(
+        bloc,
+        emitsInOrder([
+          const AddParkingPlaceState.addingInProgress(),
+          const AddParkingPlaceState.addingFailure(
+              ParkingPlaceFailure.unexpected()),
+        ]),
+      );
+    });
 
-  test('Offline ...', () {
-    when(mockParkingPlaceRepository.add(parkingPlace))
-        .thenAnswer((_) async => left(const ParkingPlaceFailure.offline()));
+    test('emits [addingInProgress, addingFailure(offline)] when offline', () {
+      when(mockParkingPlaceRepository.add(parkingPlace))
+          .thenAnswer((_) async => left(const ParkingPlaceFailure.offline()));
 
-    bloc.add(const AddParkingPlaceEvent.addPressed(parkingPlace));
+      bloc.add(const AddParkingPlaceEvent.addPressed(parkingPlace));
 
-    expectLater(
-      bloc,
-      emitsInOrder([
-        const AddParkingPlaceState.addingInProgress(),
-        const AddParkingPlaceState.addingFailure(ParkingPlaceFailure.offline()),
-      ]),
-    );
-  });
+      expectLater(
+        bloc,
+        emitsInOrder([
+          const AddParkingPlaceState.addingInProgress(),
+          const AddParkingPlaceState.addingFailure(
+              ParkingPlaceFailure.offline()),
+        ]),
+      );
+    });
 
-  test('Insufficient ...', () {
-    when(
-      mockParkingPlaceRepository.add(parkingPlace),
-    ).thenAnswer(
-      (_) async => left(const ParkingPlaceFailure.insufficientPermissions()),
-    );
+    test(
+        'emits [addingInProgress, addingFailure(insufficientPermissions)] '
+        'when insufficient-permissions error occured', () {
+      when(
+        mockParkingPlaceRepository.add(parkingPlace),
+      ).thenAnswer(
+        (_) async => left(const ParkingPlaceFailure.insufficientPermissions()),
+      );
 
-    final bloc = AddParkingPlaceBloc(mockParkingPlaceRepository);
+      final bloc = AddParkingPlaceBloc(mockParkingPlaceRepository);
 
-    bloc.add(
-      const AddParkingPlaceEvent.addPressed(parkingPlace),
-    );
+      bloc.add(
+        const AddParkingPlaceEvent.addPressed(parkingPlace),
+      );
 
-    expectLater(
-      bloc,
-      emitsInOrder([
-        const AddParkingPlaceState.addingInProgress(),
-        const AddParkingPlaceState.addingFailure(
-            ParkingPlaceFailure.insufficientPermissions()),
-      ]),
-    );
+      expectLater(
+        bloc,
+        emitsInOrder([
+          const AddParkingPlaceState.addingInProgress(),
+          const AddParkingPlaceState.addingFailure(
+              ParkingPlaceFailure.insufficientPermissions()),
+        ]),
+      );
+    });
   });
 }
