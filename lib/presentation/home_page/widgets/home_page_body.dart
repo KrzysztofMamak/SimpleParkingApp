@@ -56,8 +56,15 @@ class _HomePageBodyState extends State<HomePageBody>
             right: 70,
             child: AddParkingPlaceInfoWidget(),
           ),
-          if (context.read<PlacesBloc>().state.places.isNotEmpty)
-            _buildPlacesList(context),
+          BlocBuilder<PlacesBloc, PlacesState>(
+            buildWhen: (p, c) => p.places.length != c.places.length,
+            builder: (context, state) {
+              if (state.places.isNotEmpty) {
+                return _buildPlacesList(context);
+              }
+              return const SizedBox.shrink();
+            },
+          ),
           Positioned(
             top: 16.0,
             left: 10.0,
@@ -82,7 +89,6 @@ class _HomePageBodyState extends State<HomePageBody>
         } else {
           placesBloc.add(const PlacesEvent.placesRemoved());
         }
-        setState(() {});
       },
       onCleared: () {
         placesBloc.add(const PlacesEvent.placesRemoved());
